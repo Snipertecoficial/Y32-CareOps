@@ -1,25 +1,39 @@
-import { ArrowRight, CalendarCheck, ClockCountdown, PhoneCall, UsersThree } from '@phosphor-icons/react'
+import { ArrowRight, CheckCircle, PhoneCall, Radio } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
 import { useTenant } from '../../app/TenantProvider'
 import { Badge } from '../../components/ui/Badge'
-import { Metric } from '../../components/ui/Metric'
 
 export function OverviewPage() {
   const { tenant, tenantId, repository } = useTenant()
   const appointments = repository.getAppointments(tenantId)
   const calls = repository.getCalls(tenantId)
   const transfers = repository.getTransfers(tenantId)
-  const integrations = repository.getIntegrations(tenantId)
-  const operator = repository.getTeam(tenantId).find((member) => member.role === 'Operations manager') ?? repository.getTeam(tenantId)[0]
-  const operatorFirstName = operator?.name.split(' ')[0] ?? 'team'
-  const confirmed = appointments.filter((item) => item.status === 'Confirmed').length
   const waiting = transfers.filter((item) => item.status === 'Waiting').length
   const completion = Math.round((appointments.filter((item) => item.outreachAttempts > 0).length / appointments.length) * 100)
-  const today = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(new Date())
+  const noAnswer = appointments.filter((item) => item.status === 'No answer').length
+  const activeCalls = calls.filter((item) => ['Calling', 'Connected'].includes(item.status)).length
+  const featuredAppointments = appointments.slice(0, 4)
+  const waitingTransfers = transfers.filter((item) => item.status === 'Waiting')
+
+  const journeyStatus = (appointmentId: string, fallback: string) => {
+    if (appointmentId.endsWith('03') && calls.some((item) => item.patientName === 'Sofia Ramirez' && item.status === 'Calling')) return 'Calling'
+    return fallback
+  }
 
   return <>
-    <header className="page-heading"><div><div className="eyebrow">{today}</div><h1>Good afternoon, {operatorFirstName}</h1><p>Here is how patient outreach is moving at {tenant.name}.</p></div><Link className="button button-primary" to="/campaigns"><PhoneCall size={18} />View active campaign</Link></header>
-    <section className="metrics-grid" aria-label="Today at a glance"><Metric label="Today's appointments" value={String(appointments.filter((item) => item.date === appointments[0]?.date).length)} meta="Across all locations" icon={<CalendarCheck size={19} color="var(--brand-600)" />} /><Metric label="Confirmed" value={`${confirmed}`} meta="Via automated outreach" icon={<UsersThree size={19} color="var(--success-600)" />} /><Metric label="Needs reschedule" value={`${waiting}`} meta="Waiting for reception" icon={<ClockCountdown size={19} color="var(--warning-600)" />} /><Metric label="Calls in progress" value={`${calls.filter((item) => ['Calling', 'Connected'].includes(item.status)).length}`} meta="AI assistant is active" icon={<PhoneCall size={19} color="var(--cyan-600)" />} /></section>
-    <div className="dashboard-grid"><div className="stack"><section className="panel"><div className="panel-header"><div><h2>Today’s outreach</h2><div className="subtle">Appointment reminder progress</div></div><Link className="section-link" to="/campaigns">Campaign details <ArrowRight size={15} /></Link></div><div className="panel-body"><div className="outreach-summary"><div className="outreach-topline"><span className="outreach-number">{completion}%</span><span className="subtle">{appointments.filter((item) => item.outreachAttempts > 0).length} of {appointments.length} contacted</span></div><div className="progress-track" role="progressbar" aria-label="Outreach progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={completion}><div className="progress-value" style={{ width: `${completion}%` }} /></div><div className="outreach-legend"><div className="legend-item success"><strong>{confirmed}</strong><span>Confirmed</span></div><div className="legend-item warning"><strong>{appointments.filter((item) => item.status === 'Needs reschedule').length}</strong><span>Reschedule</span></div><div className="legend-item info"><strong>{appointments.filter((item) => item.status === 'Pending').length}</strong><span>Pending</span></div><div className="legend-item"><strong>{appointments.filter((item) => item.status === 'No answer').length}</strong><span>No answer</span></div></div></div></div></section><section className="panel"><div className="panel-header"><h2>Upcoming appointments</h2><Link className="section-link" to="/appointments">View all <ArrowRight size={15} /></Link></div><div className="panel-body">{appointments.slice(0, 4).map((item) => <div className="attention-row" key={item.id}><div className="time-block">{item.time}</div><div><div className="row-title">{item.patientName}</div><div className="row-meta">{item.provider} · {item.location}</div></div><Badge>{item.status}</Badge></div>)}</div></section></div><aside className="stack"><section className="panel"><div className="panel-header"><h2>Needs attention</h2><Badge>{waiting} waiting</Badge></div><div className="panel-body">{transfers.filter((item) => item.status === 'Waiting').map((item) => <div className="attention-row" key={item.id}><span className="avatar">{item.patientInitials}</span><div><div className="row-title">{item.patientName}</div><div className="row-meta">Reschedule · waiting {item.waitMinutes} min</div></div><ArrowRight size={18} color="var(--slate-400)" /></div>)}<Link className="section-link" to="/reschedule" style={{ marginTop: 10 }}>Open reception queue <ArrowRight size={15} /></Link></div></section><section className="panel"><div className="panel-header"><h2>Integration health</h2><Link className="section-link" to="/integrations">Manage</Link></div><div className="panel-body">{integrations.map((item) => <div className="health-row" key={item.id}><div className="health-name"><span className="avatar">{item.category.slice(0, 2)}</span><div><div className="row-title">{item.name}</div><div className="row-meta">{item.lastSync}</div></div></div><Badge>{item.status}</Badge></div>)}</div></section></aside></div>
+    <header className="page-heading"><div><div className="eyebrow">Operations overview</div><h1>Today’s patient outreach</h1><p>A calm view of what is moving and what needs a person at {tenant.shortName}.</p></div><Link className="button button-secondary" to="/campaigns"><Radio size={18} />Open active campaign</Link></header>
+
+    <section className="signal-grid" aria-label="Outreach status">
+      <div className="signal-primary"><span>Confirmation progress</span><strong>{completion}%</strong><small>{appointments.filter((item) => item.outreachAttempts > 0).length} of {appointments.length} patients reached</small></div>
+      <div className="signal-item"><span>In progress</span><strong>{activeCalls}</strong><small>AI calls live now</small></div>
+      <div className="signal-item"><span>Reception</span><strong>{waiting}</strong><small>Requests waiting</small></div>
+      <div className="signal-item"><span>No answer</span><strong>{noAnswer}</strong><small>Retry at 3:30 PM</small></div>
+    </section>
+
+    <div className="calm-dashboard-grid">
+      <section className="panel journey-panel"><div className="panel-header"><h2>Active patient journey</h2><Link className="section-link" to="/appointments">View all appointments <ArrowRight size={14} /></Link></div><div className="panel-body journey-list">{featuredAppointments.map((item) => <div className="journey-row" key={item.id}><span className="avatar">{item.patientInitials}</span><div><div className="row-title">{item.patientName}</div><div className="row-meta">{item.time} · {item.provider}</div></div><span className="journey-language">{item.language}</span><Badge>{journeyStatus(item.id, item.status)}</Badge></div>)}</div></section>
+
+      <section className="panel attention-panel"><div className="panel-header"><h2>Human attention</h2><Link className="section-link" to="/reschedule">Open queue</Link></div><div className="panel-body"><div className="attention-card-list">{waitingTransfers.map((item) => <div className="attention-card" key={item.id}><span className="attention-icon"><PhoneCall size={19} /></span><div><div className="row-title">{item.patientName}</div><div className="row-meta">Waiting {item.waitMinutes} min · {item.clinic.replace(' Clinic', '')}</div></div><Link className="attention-action" to="/reschedule" aria-label={`Open ${item.patientName} in reception queue`}>Accept</Link></div>)}</div><div className="integration-health"><span><CheckCircle size={20} />FHIR read sync healthy</span><Link to="/integrations">Integration details</Link></div></div></section>
+    </div>
   </>
 }

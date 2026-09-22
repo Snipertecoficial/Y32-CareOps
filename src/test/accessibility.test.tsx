@@ -19,7 +19,7 @@ const contrastRatio = (foreground: string, background: string) => {
 }
 
 const routes = [
-  ['/overview', 'Good afternoon, Olivia'],
+  ['/overview', 'Today’s patient outreach'],
   ['/appointments', 'Appointments'],
   ['/campaigns', 'Campaigns'],
   ['/live-calls', 'Live calls'],

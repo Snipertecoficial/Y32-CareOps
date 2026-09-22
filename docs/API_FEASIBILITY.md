@@ -9,6 +9,59 @@ The concept is feasible as a platform, but the supplied public documentation doe
 
 The public Credible FHIR page documents FHIR R4.0.1 and US Core 3.1.1 resources. Its published resource list is primarily read/search oriented and does not include `Appointment`, `Schedule`, or `Slot`. A separate CredibleBH Web API help page exposes appointment-adjacent and schedule routes, but many have no descriptions and the `POST api/schedules/Add` detail page returned an application error during this assessment.
 
+## What Each Supplied API Delivers
+
+### Credible FHIR
+
+This is the documented, standards-based integration surface. It is suitable for OAuth-authorized, JSON-based reading of supported clinical and identity resources. For Y32 CareOps, the useful published resources are:
+
+| Published resource | Y32 use | Documented operation |
+|---|---|---|
+| `Patient` | Match the patient and retrieve permitted demographics | search, read |
+| `Practitioner` | Resolve the professional attached to an encounter or workflow | search, read |
+| `Organization` | Resolve organization context | search, read |
+| `Location` | Resolve clinic/location context | search, read |
+| `Encounter` | Add permitted encounter context when useful | search, read |
+| `CarePlan`, `CareTeam` | Optional operational context; not required for reminders | search, read |
+| `Condition`, `Observation`, `DiagnosticReport`, `DocumentReference`, `MedicationRequest`, `Procedure` | Clinical resources outside the minimum reminder workflow | search/read as listed by Qualifacts |
+| `Medication`, `Provenance` | Read-only supporting resources | read |
+
+The public FHIR resource list does **not** publish `Appointment`, `Schedule`, or `Slot`. Therefore, FHIR alone cannot currently be used as evidence that Y32 can import the appointment queue, confirm a visit, or move it to another time.
+
+### CredibleBH Web API Help / ExtService
+
+This page is an inventory of application-specific endpoints, not a complete integration contract. Relevant signals observed in the public index include:
+
+- `GET api/GmpRequest/PatientAppointment/...`
+- `GET api/GmpRequest/RecurrenceAppointment/...`
+- `GET api/GmpRequest/UpdatePatientAppointment/...`
+- `GET api/GmpRequest/DeletePatientAppointment/...`
+- `GET api/GmpRequest/GetAppointmentsResyncHistory`
+- `GET api/GmpRequest/AppointmentsResync/...`
+- `GET api/GmpRequest/AppointmentsResyncSingleRun/...`
+- `GET api/GmpRequest/AppointmentsResyncScheduled/...`
+- `GET api/ApptVerify/GetVisitTypes`
+- `GET api/visit/employee`
+- `GET api/visit/employees/{clientId}/{filter}`
+- `GET api/visit/lookups/{employeeId}/{clientId}`
+- `POST api/schedules/Add`
+
+The index labels these endpoints `No documentation available.` It does not publicly establish authentication requirements, request/response schemas, supported tenant/customer editions, idempotency behavior, error semantics, or whether third-party use is approved. Names that imply mutation through `GET` require particular caution. These endpoints are candidates for a sandbox proof of concept, not promises Y32 should sell as complete.
+
+## What Will Work When Integrated
+
+| Y32 workflow | Credible contribution | Other required service | Current decision |
+|---|---|---|---|
+| Identify the patient | FHIR `Patient` search/read | Y32 tenant mapping | Feasible after sandbox scope validation |
+| Show provider and clinic | FHIR `Practitioner`, `Organization`, and `Location` | Y32 normalization/cache | Feasible after sandbox scope validation |
+| Import upcoming appointments | No published FHIR appointment resource; ExtService has appointment/sync signals | Approved appointment feed or vendor contract | Blocked pending Qualifacts validation |
+| Place reminder call | None | Telephony provider | Feasible outside Credible |
+| Understand confirm/reschedule intent | None | AI voice service plus constrained intent model | Feasible outside Credible |
+| Mark an appointment confirmed | No published FHIR operation; ExtService contract unknown | Y32 command/audit service | Blocked pending supported write contract; manual fallback required |
+| Transfer a reschedule request | Patient/provider/location context may enrich the handoff | Telephony warm transfer and reception routing | Feasible without automatic rescheduling |
+| Select and save a new appointment time | `POST api/schedules/Add` and GmpRequest names suggest possible support, but schemas and approval are not public | Y32 availability, validation, idempotency, and audit | Not validated; receptionist-only in the first production release |
+| Reconcile and retry sync | ExtService exposes appointment resync route names | Queue, retry policy, monitoring | Candidate capability; must be proven in sandbox |
+
 ## Confirmed Public Capabilities
 
 - Sandbox base URL: `https://fhir.cbhstg4.crediblebh.com`
@@ -90,6 +143,16 @@ Before production implementation begins, the technical proof of concept must dem
 6. One synthetic reschedule request transferred to a reception destination.
 7. Tenant separation across credentials, data, queues, and audit events.
 8. Failure handling for timeouts, rate limits, expired tokens, no answer, and transfer failure.
+9. Written confirmation of which Credible API family is approved for each production operation.
+10. Captured request/response schemas and permission scopes for appointment read, confirmation, and rescheduling.
+
+## Prototype Representation
+
+- The current UI shows Credible FHIR as connected for read-oriented patient, practitioner, and location capability demonstrations.
+- Credible Scheduling is shown as `Limited` and exposes only `appointment.read` in mock capability data.
+- No control claims that a real Credible record was changed.
+- All connection dialogs, tokens, calls, and scheduling outcomes remain local demo state.
+- This boundary must remain visible until the proof-of-concept exit criteria above are satisfied.
 
 ## Risk Controls
 

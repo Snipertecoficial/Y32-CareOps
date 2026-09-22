@@ -1,13 +1,15 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { TenantProvider } from '../../app/TenantProvider'
 import { AppRoutes } from '../../app/routes'
 import { ToastProvider } from '../../components/ui/ToastProvider'
 import { ReschedulePage } from './ReschedulePage'
 
 describe('ReschedulePage', () => {
+  beforeEach(() => window.sessionStorage.setItem('y32-careops-demo-session', 'active'))
+
   it('assigns a waiting patient to the current receptionist', async () => {
     const user = userEvent.setup()
     render(<MemoryRouter><TenantProvider><ToastProvider><ReschedulePage /></ToastProvider></TenantProvider></MemoryRouter>)
@@ -18,7 +20,6 @@ describe('ReschedulePage', () => {
 
   it('assigns Northstar requests to the Northstar operations manager', async () => {
     const user = userEvent.setup()
-    window.sessionStorage.setItem('y32-careops-demo-session', 'active')
     render(<MemoryRouter initialEntries={['/reschedule']}><TenantProvider><ToastProvider><AppRoutes /></ToastProvider></TenantProvider></MemoryRouter>)
     await user.selectOptions(screen.getByRole('combobox', { name: 'Organization' }), 'northstar')
     await user.click(screen.getByRole('link', { name: 'Reschedule queue' }))
@@ -47,5 +48,16 @@ describe('ReschedulePage', () => {
     await user.click(screen.getByRole('button', { name: 'Return Ethan Brooks to waiting' }))
     expect(screen.getByRole('button', { name: 'Accept Ethan Brooks' })).toBeVisible()
     expect(screen.queryByText('Assigned to Olivia Carter')).not.toBeInTheDocument()
+  })
+
+  it('opens the reschedule request context from Details', async () => {
+    const user = userEvent.setup()
+    render(<MemoryRouter><TenantProvider><ToastProvider><ReschedulePage /></ToastProvider></TenantProvider></MemoryRouter>)
+
+    await user.click(screen.getByRole('button', { name: 'View Maya Thompson details' }))
+
+    expect(screen.getByRole('dialog', { name: 'Maya Thompson request details' })).toBeVisible()
+    expect(screen.getByText('Tomorrow afternoon')).toBeVisible()
+    expect(screen.getByText('Downtown Clinic')).toBeVisible()
   })
 })

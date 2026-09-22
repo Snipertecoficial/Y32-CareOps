@@ -2,71 +2,81 @@
 
 ## Comparison target
 
-- Source visual truth: `docs/DESIGN_SYSTEM.md`, `docs/superpowers/specs/2026-09-22-y32-careops-design.md`, `Y32 Solutions logo.jpeg`, and the Y32 Solutions public website capture at `docs/design-qa/y32-site-reference.png`.
-- Rendered implementation: the production Docker image served locally, with evidence in `docs/design-qa/`.
-- State: Harbor Behavioral Health, synthetic demo data, light theme, English interface.
-- Browser: Codex in-app browser for visual inspection and console review; Chromium captures for persistent evidence.
-- Density: device scale factor 1 for source and implementation captures. No density normalization was required.
+- Source visual truth: `docs/design-qa/calm-source-login-1440.png` and `docs/design-qa/calm-source-overview-1440.png`, generated from the two Calm Care directions approved by the stakeholder, plus the supplied `Y32 Solutions logo.jpeg`.
+- Rendered implementation: the production Docker image at `http://localhost:8081`, captured by Chromium after the final rebuild.
+- State: Harbor Behavioral Health, English interface, light theme, synthetic demo data. The overview comparison uses the default untouched dashboard state.
+- Browser and density: Chromium at device scale factor 1. Source and implementation desktop captures are both 1440 × 1024, so no density normalization was required.
+- Intentional normalization: the approved overview source is presented inside a dark concept-gallery frame; the implementation removes that surrounding gallery and lets the application fill the browser viewport.
 
-## Evidence
+## Browser-rendered evidence
 
 | Evidence | CSS viewport | PNG dimensions | Purpose |
 |---|---:|---:|---|
-| `docs/design-qa/y32-site-reference.png` | 1440 × 1024 | 1440 × 1024 | Public Y32 brand reference |
-| `docs/design-qa/brand-comparison-desktop.png` | composite | 1440 × 560 | Side-by-side brand and entry-page comparison |
-| `docs/design-qa/entry-desktop.png` | 1440 × 1024 | 1440 × 1024 | Branded entry route |
-| `docs/design-qa/overview-desktop.png` | 1440 × 1024 | 1440 × 1027 | Expanded navigation and dashboard |
-| `docs/design-qa/overview-tablet.png` | 834 × 1194 | 834 × 1796 | Collapsed navigation and stacked content |
-| `docs/design-qa/overview-mobile.png` | 390 × 844 | 390 × 2306 | Mobile shell and single-column dashboard |
-| `docs/design-qa/appointments-mobile.png` | 390 × 844 | 390 × 1564 | Mobile filters and contained data table |
-| `docs/design-qa/live-calls-mobile.png` | 390 × 844 | 390 × 1431 | Mobile call list and conversation workspace |
-| `docs/design-qa/team-mobile.png` | 390 × 844 | 390 × 844 | Mobile role filters and contained member table |
-| `docs/design-qa/reschedule-desktop.png` | 1440 × 1024 | 1440 × 1024 | Northstar tenant context, Grace Turner assignment, and explicit resolution outcome |
+| `docs/design-qa/calm-source-login-1440.png` | 1440 × 1024 | 1440 × 1024 | Approved login source |
+| `docs/design-qa/entry-desktop.png` | 1440 × 1024 | 1440 × 1024 | Implemented login |
+| `docs/design-qa/comparison-login-desktop.png` | normalized composite | 1440 × 544 | Source and implementation in one visual comparison |
+| `docs/design-qa/calm-source-overview-1440.png` | 1440 × 1024 | 1440 × 1024 | Approved sidebar/dashboard source |
+| `docs/design-qa/overview-desktop.png` | 1440 × 1024 | 1440 × 1024 | Implemented dashboard |
+| `docs/design-qa/comparison-overview-desktop.png` | normalized composite | 1440 × 544 | Source and implementation in one visual comparison |
+| `docs/design-qa/entry-tablet.png` | 834 × 1194 | 834 × 1262 | Stacked tablet sign-in |
+| `docs/design-qa/entry-mobile.png` | 390 × 844 | 390 × 1364 | Stacked mobile sign-in |
+| `docs/design-qa/overview-tablet.png` | 834 × 1194 | 834 × 1194 | Collapsed tablet sidebar |
+| `docs/design-qa/overview-mobile.png` | 390 × 844 | 390 × 1411 | Mobile application shell |
+| `docs/design-qa/reschedule-details-desktop.png` | 1440 × 1024 | 1440 × 1024 | Working transfer-context drawer |
+| `docs/design-qa/routes/*.png` | 1440 × 1024 | 11 full-page captures | Every internal destination |
 
-The full-view comparison confirms that the prototype carries the public site's navy, blue, teal, and white identity into a calmer healthcare-operations interface. A separate logo crop was not needed because the application imports the exact supplied 1024 × 1024 logo asset instead of recreating it.
+The two composite images are the required same-input comparisons. Separate focused crops were not needed: both source and implementation were captured at the same desktop pixel dimensions, and the full-size originals keep typography, controls, icons, logo treatment, spacing, and borders readable. The drawer evidence is reviewed separately because it is a product interaction beyond the two static source states.
 
 ## Required fidelity surfaces
 
-- Fonts and typography: Inter is loaded locally with appropriate 400–700 weights; hierarchy, wrapping, line height, and labels remain readable at all three target widths.
-- Spacing and layout rhythm: desktop uses the 248 px sidebar and 32 px gutters; tablet uses the 76 px compact rail; mobile uses a 16 px gutter and stacked content. Panels, dividers, controls, and section spacing consistently follow the design-system tokens.
-- Colors and visual tokens: navy navigation, Y32 blue actions, cyan accents, cool-gray canvas, and semantic status colors match the supplied identity and remain paired with text labels.
-- Image quality and asset fidelity: the supplied Y32 logo is used directly with preserved aspect ratio and white breathing room. No replacement illustration, CSS drawing, emoji, or handcrafted logo is used.
-- Copy and content: all interface copy is English, concise, and explicit about synthetic data, demo-only behavior, and Credible scheduling limitations.
-- Icons and controls: Phosphor icons use a consistent stroke family; primary controls have 40 px minimum targets and visible focus treatment.
-- States and interactions: entry, route navigation, tenant switch, appointment detail, campaign creation, live call, transfer acceptance/resolution, integration configuration, dialogs, and mobile navigation were exercised.
-- Accessibility: headings and landmarks remain semantic, statuses include text, focus is restored after mobile navigation, reduced motion is supported, and automated axe checks report no serious or critical violations.
+- Fonts and typography: DM Sans is used for interface copy and Manrope for headings. Weight, hierarchy, line height, wrapping, and compact labels track the source; no clipping or truncated primary label appears in the target viewports.
+- Spacing and layout rhythm: the login preserves the split composition on desktop and stacks before the columns can overflow on tablet. The logged-in desktop uses the fixed 250 px sidebar; tablet uses a 76 px rail; mobile uses a focus-managed sheet and single-column content.
+- Colors and visual tokens: deep teal navigation, cyan accents, pale aqua canvas, white operational surfaces, and semantic status colors match the selected Calm Care direction and the Y32 brand.
+- Image quality and asset fidelity: the supplied Y32 JPEG logo is imported directly with its aspect ratio preserved. No CSS drawing, emoji, handcrafted SVG, or placeholder replaces a source visual asset.
+- Copy and content: the interface is natively English and consistently labels synthetic data, demo-only actions, and the unvalidated Credible scheduling boundary.
+- Icons and controls: Phosphor icons share one visual family. Primary controls meet the 40 px target, keep visible focus, and retain accessible names when the tablet sidebar hides captions.
+- States and interactions: login, protected routes, all eleven destinations, tenant switching, notifications, appointment detail, campaign creation, live-call transfer preparation, reschedule details/accept/resolve/return, integration configuration, secret clearing, logout, and browser-back protection were exercised.
+- Accessibility: all pages have named headings and landmarks; status does not rely on color alone; overlay focus is contained/restored; reduced motion is supported; automated axe coverage reports no serious or critical violations.
 
 ## Findings and comparison history
 
 ### Pass 1 — blocked
 
-- [P2] Appointments and Team allowed page-level horizontal scrolling at 390 px because wide table contents escaped into the root scroll area.
-  - Fix: isolate wide table paint inside `.table-wrap` while preserving component-level horizontal scrolling.
-- [P2] Live-call identity and metadata rendered on the same baseline at narrow widths, reducing scanability.
-  - Fix: make the identity copy wrapper a small grid so the title and metadata retain separate lines.
+- [P2] Wide appointment and team tables could escape into page-level horizontal scrolling at 390 px.
+  - Fix: constrained overflow to the table wrapper while keeping the page itself fixed to the viewport.
+- [P2] Live-call identity and metadata shared one narrow baseline on mobile.
+  - Fix: separated the identity copy into a compact responsive grid.
 
-### Pass 2 — passed
+### Pass 2 — blocked
 
-- Post-fix browser evidence: `appointments-mobile.png`, `team-mobile.png`, and `live-calls-mobile.png`.
-- Regression evidence: all eleven routes reject page-level horizontal movement at 390 px and 834 px; the live-call title and metadata bounding boxes no longer overlap.
-- Console review: no warning or error entries were present after navigating every route in the in-app browser.
+- [P2] The desktop login grid retained a combined minimum width of 940 px, causing horizontal overflow on the 834 px tablet viewport.
+  - Fix: introduced a 940 px breakpoint that stacks the login and patient-journey regions.
+- [P2] The tablet sidebar hid navigation captions but left the sign-out caption visible, breaking the compact rail rhythm.
+  - Fix: collapsed the sign-out caption with the other labels while preserving `aria-label="Sign out"`.
+
+### Pass 3 — blocked
+
+- [P2] Collapsed sidebar links lost programmatic names when their visible text was hidden.
+  - Fix: added explicit accessible labels to every route link; the tablet browser test checks `Appointments` and `Organization settings` by accessible name.
+- [P2] `Details` buttons in the reschedule queue had no action.
+  - Fix: connected every Details action to a drawer showing priority, state, original appointment, requested window, location, language, assignee, and outcome when available.
+
+### Pass 4 — passed
+
+- Post-fix evidence: `comparison-login-desktop.png`, `comparison-overview-desktop.png`, `entry-tablet.png`, `overview-tablet.png`, and `reschedule-details-desktop.png`.
+- Desktop fidelity: the application preserves the approved hierarchy, calm clinical palette, sidebar grouping, metric strip, attention queue, whitespace, and restrained elevation. The dark concept-gallery frame is intentionally excluded from the shipped app.
+- Responsive evidence: automated checks found no page-level horizontal overflow on all eleven routes at 390 px and 834 px.
+- Interaction evidence: the final Docker build completed the campaign wizard, notification feedback, both tenant contexts, live-call transfer preparation, reschedule detail/accept/resolve/return, masked integration secret clearing, logout, and protected back navigation.
+- Console review: the 17 final browser-rendered captures completed with zero console warnings, console errors, or page errors.
 - No actionable P0, P1, or P2 finding remains.
-
-### Pass 3 — final-review fixes passed
-
-- Verified the Northstar context end to end: organization identity, operator avatar/name, queue data, and assignment all resolve to the active tenant.
-- Verified all three resolution outcomes, return-to-waiting behavior, keyboard focus containment/restoration, Escape dismissal, and demo-only notices on non-persistent controls.
-- Rechecked secondary text against white and canvas backgrounds after updating `slate-500`; automated accessibility coverage now includes color contrast.
-- Persistent evidence: `reschedule-desktop.png` shows Caleb Price assigned to Grace Turner with `Rescheduled` selected and the local-only notice visible.
-- No actionable P0, P1, or P2 finding remains after the final review fix pass.
 
 ## Open questions
 
-- None for the prototype phase. Production authentication, vendor credentials, PHI handling, telephony, AI providers, and Credible scheduling write-back remain intentionally outside this build.
+- None for the prototype. Production identity, real PHI, telephony, AI providers, and Credible appointment write-back remain intentionally gated by the roadmap and API feasibility assessment.
 
 ## Follow-up polish
 
-- [P3] Replace the supplied JPEG logo with an official transparent SVG if Y32 provides one, particularly for high-density displays.
+- [P3] Replace the supplied JPEG logo with an official transparent SVG if Y32 provides one for sharper rendering on very high-density displays.
 
 ## Final result
 

@@ -1,6 +1,6 @@
 # Y32 CareOps — Product Requirements Document
 
-**Document version:** 0.1  
+**Document version:** 0.3
 **Date:** September 22, 2026  
 **Product stage:** Client-validation prototype  
 **Primary product language:** English  
@@ -92,6 +92,42 @@ The prototype must include the following interactive screens:
 11. **Audit log** — immutable-style activity list with actor, tenant, action, and timestamp.
 12. **Organization settings** — tenant identity, locations, time zone, notification defaults, and data-retention controls.
 
+### 7.1 Navigation and interaction contract
+
+The demo uses one published prototype account (`Admin` / `Admin`). It exposes every screen so a prospect can evaluate the complete product vision. This is not the production authorization model; production roles are defined in section 5 and must be enforced by the backend.
+
+| Menu / route | What the user sees | Click or input | Immediate result in the prototype | Production delivery |
+|---|---|---|---|---|
+| Sign in `/` | Y32 identity, credentials, and a live patient-journey preview | Submit `Admin` / `Admin` | Starts a browser-tab demo session and opens Overview | SSO/OIDC, MFA policy, secure server session, timeout, lockout, and role claims |
+| Overview `/overview` | Outreach progress, live calls, reception demand, patient journey, and FHIR health | Open active campaign | Opens Campaigns | Live operational aggregates from jobs, calls, and connector events |
+| Overview `/overview` | Patients waiting for human attention | Accept on a patient | Opens the Reschedule queue, where the receptionist can claim the request | Atomic server-side assignment with real-time queue updates |
+| Overview `/overview` | FHIR sync summary | Integration details | Opens Integrations | Connector telemetry, alerts, and run history |
+| Appointments `/appointments` | Searchable list, filters, list/calendar toggle, and visit rows | Search/filter/toggle | Updates the visible synthetic result set without mixing tenants | Server-side pagination, saved filters, and EHR-backed appointment data |
+| Appointments `/appointments` | Appointment detail | Select a row | Opens the detail drawer with visit and outreach history | Current source record plus audited status actions |
+| Campaigns `/campaigns` | Campaign progress and outcomes | Create campaign | Opens Audience → Timing → Script → Review; saving creates a local Draft | Persisted campaign, eligibility validation, job scheduling, approval, pause/resume |
+| Live calls `/live-calls` | Active/recent calls, transcript, detected intent, and transfer state | Select a call | Changes the detail workspace | Provider webhooks, streaming events, recording policy, supervisor controls |
+| Reschedule queue `/reschedule` | Waiting, assigned, and resolved requests | Accept | Moves the request from Waiting to Assigned and names the receptionist | Transactional ownership, concurrency protection, SLA tracking |
+| Reschedule queue `/reschedule` | Patient and transfer context | Details | Opens a drawer with priority, queue status, original appointment, requested window, clinic, language, assignee, and recorded outcome | Tenant-scoped handoff context assembled from call, appointment, and queue records |
+| Reschedule queue `/reschedule` | Assigned request context | Choose outcome and resolve | Moves it to Resolved in local state | Approved Credible scheduling write-back or receptionist-only completion |
+| Reschedule queue `/reschedule` | Assigned request context | Return to queue | Returns the request to Waiting and removes the local assignee | Transactional release with concurrency protection and an audit event |
+| Patients `/patients` | Communication directory without diagnosis or medication data | Search/filter/select | Filters the directory and changes the detail panel | Minimum-necessary patient access with consent and audit enforcement |
+| AI assistant `/assistant` | Voice, languages, script, calling window, retries, disclosure, escalation | Edit and save | Updates the current screen and shows a demo-only notice | Versioned configurations, approvals, secrets isolation, evaluation and rollback |
+| Integrations `/integrations` | Credible FHIR, scheduling, telephony, and AI capability cards | Configure | Opens a masked, non-persistent demo form | Encrypted per-tenant secrets and server-side connection validation |
+| Integrations `/integrations` | Limited Credible scheduling capability | Attempt write-back | Remains disabled and explains the missing vendor contract | Enabled only after Qualifacts documents and approves the operation |
+| Team & roles `/team` | People, roles, status, and location scope | Filter or invite | Filters rows or opens a local invite dialog | Identity-provider invitation, RBAC, least privilege, and access review |
+| Audit log `/audit` | Tenant-scoped events and correlation IDs | Search/filter | Narrows the visible immutable-style event list | Append-only audit store, retention, export, and investigation workflow |
+| Organization settings `/settings` | Tenant identity, time zone, locations, notifications, and retention | Edit and save | Updates local form state and shows a demo-only notice | Validated persistence, change approval, audit event, and policy enforcement |
+| Global sidebar | Organization selector | Change organization | Returns to Overview and replaces all visible records with the selected tenant | Server-authorized tenant context and per-tenant data isolation |
+| Global top bar | Notifications | Click bell | Shows `No new demo notifications.` | Notification center backed by actionable events and read state |
+| Global sidebar | Sign out | Click Sign out | Clears the demo session and returns to Sign in | Identity-provider logout, token revocation, and server-session termination |
+
+### 7.2 Prototype behavior labels
+
+- **Interactive:** navigation, filters, drawers, dialogs, campaign steps, queue state changes, tenant switching, notifications, and sign out work in browser state.
+- **Simulated:** patient records, campaigns, calls, transcripts, configuration saves, invitations, connection tests, and audit events are synthetic or local-only.
+- **Blocked by validation:** Credible appointment read, confirmation write-back, and rescheduling write-back remain unavailable until Qualifacts provides sandbox access and an approved contract.
+- Every simulated external mutation must show `Demo only — no external system will be updated.`
+
 ## 8. Functional Requirements
 
 ### Multi-tenancy
@@ -116,6 +152,7 @@ The prototype must include the following interactive screens:
 ### Reception handoff
 
 - Reschedule requests show urgency, patient preference, original appointment, and call context.
+- Selecting `Details` opens a contextual drawer without changing queue ownership or status.
 - Receptionists can accept, resolve, or return an item to the queue in the local prototype state.
 - No alternative time is booked automatically in this phase.
 
@@ -125,14 +162,24 @@ The prototype must include the following interactive screens:
 - Credential fields are masked and never persist in the prototype.
 - Credible scheduling write-back is shown as unavailable until partner access proves a supported contract.
 
+### Session and access behavior
+
+- Unauthenticated access to any internal route redirects to Sign in.
+- Successful demo sign-in replaces browser history so Back does not reopen the credential form as an active session page.
+- Sign out clears the tab-scoped session and returns to Sign in.
+- The prototype session is stored in `sessionStorage` only. It is not production authentication and is intentionally lost when the tab session is cleared.
+
 ## 9. Design Requirements
 
 - Use the supplied Y32 Solutions logo and its blue-to-cyan visual identity.
 - Maintain a calm, trustworthy clinical-operations tone rather than a consumer wellness aesthetic.
 - Use a dense but readable desktop layout for operational work.
 - Meet WCAG 2.2 AA contrast and keyboard-navigation expectations.
-- Avoid decorative gradients except for small brand accents derived from the logo.
+- Use restrained teal gradients only on the approved sign-in and summary surfaces; keep operational content on quiet solid backgrounds.
 - Use plain English labels, explicit statuses, and no medical jargon where it is unnecessary.
+- At tablet widths, the sign-in composition stacks before its columns can create horizontal overflow.
+- The tablet sidebar may hide visible captions, but every navigation and sign-out control must retain an accessible name.
+- At mobile widths, navigation becomes a focus-managed sheet; routes, actions, and forms remain reachable without horizontal page scrolling.
 
 ## 10. Data and Security Requirements
 
@@ -160,6 +207,8 @@ The prototype must include the following interactive screens:
 - The Y32 brand is recognizable without overwhelming the clinical workflow.
 - The prototype is usable at desktop and tablet widths and remains navigable on mobile.
 - The client can distinguish simulated functionality from validated production integrations.
+- Every visible primary action either changes the current demo state, opens the next relevant screen, or explains why the action is unavailable.
+- The sign-in, protected-route, notification, tenant-switch, and sign-out paths pass automated regression tests.
 
 ## 13. Delivery Phases
 
@@ -178,6 +227,8 @@ Backend services, tenant isolation, identity and access management, encrypted se
 ### Phase 4 — Customer rollout
 
 Per-customer Credible approval, BAA completion, controlled pilot, operational training, monitoring, and staged production release.
+
+The detailed sequence, dependencies, exit criteria, and menu-by-menu delivery status are maintained in [`ROADMAP.md`](ROADMAP.md).
 
 ## 14. Product Decisions for the Prototype
 

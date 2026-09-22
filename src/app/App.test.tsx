@@ -5,6 +5,6 @@ import { App } from './App'
 describe('App', () => {
   it('renders the Y32 CareOps product identity', () => {
     render(<App />)
-    expect(screen.getByRole('heading', { name: 'Y32 CareOps' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Welcome back to coordinated care.' })).toBeInTheDocument()
   })
 })

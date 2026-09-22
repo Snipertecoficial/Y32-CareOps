@@ -15,7 +15,7 @@ describe('protected demo routes', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { name: 'Y32 CareOps' })).toBeVisible()
-    expect(screen.queryByRole('heading', { name: /Good afternoon/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Welcome back to coordinated care.' })).toBeVisible()
+    expect(screen.queryByRole('heading', { name: 'Today’s patient outreach' })).not.toBeInTheDocument()
   })
 })

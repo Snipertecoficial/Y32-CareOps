@@ -1,4 +1,25 @@
 .metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+.signal-grid { display: grid; grid-template-columns: 1.55fr repeat(3, minmax(0, 1fr)); margin-bottom: 18px; overflow: hidden; border: 1px solid var(--slate-200); border-radius: var(--radius-lg); background: white; }
+.signal-primary { padding: 21px 23px; color: white; background: linear-gradient(125deg, #0b6771, #168c91); }
+.signal-grid span { display: block; color: var(--slate-500); font-size: 11px; }
+.signal-grid strong { display: block; margin-top: 6px; font-family: Manrope, "DM Sans", sans-serif; font-size: 27px; line-height: 1.2; }
+.signal-grid small { display: block; margin-top: 6px; color: var(--slate-500); font-size: 10px; }
+.signal-primary span, .signal-primary small { color: #d5f0ee; }
+.signal-primary strong { font-size: 37px; }
+.signal-item { padding: 21px; border-left: 1px solid var(--slate-200); }
+.calm-dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(340px, .9fr); gap: 18px; }
+.journey-list { display: grid; }
+.journey-row { display: grid; grid-template-columns: 36px minmax(0, 1fr) 70px auto; gap: 12px; align-items: center; padding: 13px 0; border-top: 1px solid var(--slate-100); }
+.journey-row:first-child { border-top: 0; }
+.journey-row .avatar { color: var(--brand-700); background: var(--cyan-100); border-radius: 11px; }
+.journey-language { color: var(--slate-500); font-size: 11px; }
+.attention-card-list { display: grid; gap: 10px; }
+.attention-card { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 11px; align-items: center; padding: 12px; border-radius: 11px; background: #f5faf9; }
+.attention-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; color: var(--cyan-500); background: white; }
+.attention-action { padding: 8px 10px; border-radius: 8px; color: white; background: var(--brand-700); font-size: 10px; font-weight: 700; text-decoration: none; }
+.integration-health { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--slate-200); color: var(--slate-500); font-size: 11px; }
+.integration-health span { display: flex; align-items: center; gap: 7px; }
+.integration-health a { color: var(--brand-700); font-weight: 700; text-decoration: none; }
 .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(300px, .85fr); gap: 18px; }
 .stack { display: grid; gap: 18px; }
 .subtle { color: var(--slate-500); }
@@ -187,7 +208,7 @@
 .settings-actions { display: flex; align-items: center; justify-content: flex-end; gap: 16px; }
 .settings-actions span { color: var(--slate-500); font-size: 11px; }
 
-@media (max-width: 1199px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid, .assistant-layout, .patient-layout { grid-template-columns: 1fr; } .patient-detail { position: static; } }
+@media (max-width: 1199px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid, .assistant-layout, .patient-layout, .calm-dashboard-grid { grid-template-columns: 1fr; } .patient-detail { position: static; } }
 @media (max-width: 1000px) { .queue-columns { grid-template-columns: 1fr; } .calls-layout { grid-template-columns: 1fr; } .call-sidebar { border-right: 0; border-bottom: 1px solid var(--slate-200); } }
 @media (max-width: 767px) { .integration-grid, .settings-grid { grid-template-columns: 1fr; } }
-@media (max-width: 620px) { .metrics-grid { grid-template-columns: 1fr; } .outreach-legend { grid-template-columns: repeat(2, 1fr); } .detail-grid, .form-grid { grid-template-columns: 1fr; } .toolbar { align-items: stretch; } .toolbar .field { width: 100%; } .campaign-stats, .call-status-grid { grid-template-columns: repeat(2, 1fr); } .integration-summary { justify-content: space-between; gap: 12px; } .settings-actions { align-items: stretch; flex-direction: column; } }
+@media (max-width: 620px) { .metrics-grid { grid-template-columns: 1fr; } .signal-grid { grid-template-columns: 1fr 1fr; } .signal-primary { grid-column: 1 / -1; } .signal-item { border-top: 1px solid var(--slate-200); } .signal-item:nth-child(3) { border-left: 0; } .journey-row { grid-template-columns: 36px minmax(0, 1fr) auto; } .journey-language { display: none; } .integration-health { align-items: flex-start; flex-direction: column; } .outreach-legend { grid-template-columns: repeat(2, 1fr); } .detail-grid, .form-grid { grid-template-columns: 1fr; } .toolbar { align-items: stretch; } .toolbar .field { width: 100%; } .campaign-stats, .call-status-grid { grid-template-columns: repeat(2, 1fr); } .integration-summary { justify-content: space-between; gap: 12px; } .settings-actions { align-items: stretch; flex-direction: column; } }

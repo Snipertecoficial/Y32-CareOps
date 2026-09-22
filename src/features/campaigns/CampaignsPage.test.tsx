@@ -1,11 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { expect, it } from 'vitest'
+import { beforeEach, expect, it } from 'vitest'
 import { TenantProvider } from '../../app/TenantProvider'
 import { AppRoutes } from '../../app/routes'
 import { ToastProvider } from '../../components/ui/ToastProvider'
 import { CampaignsPage } from './CampaignsPage'
+
+beforeEach(() => window.sessionStorage.setItem('y32-careops-demo-session', 'active'))
 
 it('opens the guided campaign creator', async () => {
   const user = userEvent.setup()
@@ -16,7 +18,6 @@ it('opens the guided campaign creator', async () => {
 
 it('uses the selected organization in the reminder script', async () => {
   const user = userEvent.setup()
-  window.sessionStorage.setItem('y32-careops-demo-session', 'active')
   render(<MemoryRouter initialEntries={['/campaigns']}><TenantProvider><ToastProvider><AppRoutes /></ToastProvider></TenantProvider></MemoryRouter>)
   await user.selectOptions(screen.getByRole('combobox', { name: 'Organization' }), 'northstar')
   await user.click(screen.getByRole('link', { name: 'Campaigns' }))

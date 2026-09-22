@@ -58,6 +58,7 @@ The included `vercel.json` sends client-side routes back to `index.html`, so dir
 - [`docs/PRD.md`](docs/PRD.md) — product requirements and release boundary
 - [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) — visual tokens and interface standards
 - [`docs/API_FEASIBILITY.md`](docs/API_FEASIBILITY.md) — current Credible and FHIR feasibility findings
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — phased path from prototype to controlled production rollout
 
 ## Demo safety
 

@@ -7,7 +7,9 @@ import { OverviewPage } from './OverviewPage'
 describe('OverviewPage', () => {
   it('prioritizes the daily outreach operation', () => {
     render(<MemoryRouter><TenantProvider><OverviewPage /></TenantProvider></MemoryRouter>)
-    expect(screen.getByRole('heading', { name: 'Good afternoon, Olivia' })).toBeVisible()
-    expect(screen.getByRole('heading', { name: 'Needs attention' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Today’s patient outreach' })).toBeVisible()
+    expect(screen.getByRole('region', { name: 'Outreach status' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Active patient journey' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Human attention' })).toBeVisible()
   })
 })

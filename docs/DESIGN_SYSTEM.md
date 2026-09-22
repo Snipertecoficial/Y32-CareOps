@@ -1,12 +1,12 @@
 # Y32 CareOps Design System
 
-**Version:** 0.1  
-**Source of truth:** `Y32 Solutions logo.jpeg` and the Y32 Solutions public website  
+**Version:** 0.2
+**Source of truth:** `Y32 Solutions logo.jpeg` and the approved `calm-care-sidebar-preview.html` direction
 **Interface language:** English
 
 ## 1. Design Direction
 
-The interface should feel calm, operational, precise, and trustworthy. It combines Y32's technology identity with the clarity expected from healthcare operations software. Brand color is used to orient and confirm, while neutral surfaces carry most of the information density.
+The interface should feel calm, operational, precise, and trustworthy. A deep teal sidebar anchors the workspace, pale clinical surfaces reduce visual noise, and white panels carry the operational detail. The visual hierarchy should direct attention to progress and human handoffs without feeling urgent or alarming.
 
 ## 2. Brand Assets
 
@@ -22,20 +22,21 @@ The primary colors are derived from the supplied logo and adjusted into accessib
 
 | Token | Value | Usage |
 |---|---:|---|
-| `brand-700` | `#1F49B6` | Primary actions, active navigation |
-| `brand-600` | `#245BC7` | Links, focus accents |
-| `brand-100` | `#E8EEFF` | Selected rows, subtle highlights |
-| `cyan-600` | `#0796AA` | Secondary brand accent |
-| `cyan-500` | `#13B8C4` | Progress and positive brand moments |
-| `cyan-100` | `#DDF7F8` | Soft accent backgrounds |
-| `navy-950` | `#10213D` | Sidebar and strongest text |
-| `navy-800` | `#203653` | Headings |
-| `slate-700` | `#40536B` | Body text |
-| `slate-500` | `#607187` | Secondary text, AA on white and canvas |
-| `slate-300` | `#CAD4E0` | Borders |
-| `slate-100` | `#EDF2F7` | Dividers and muted surfaces |
+| `brand-700` | `#0A4F5A` | Sidebar, primary actions, active text |
+| `brand-600` | `#0B6F78` | Links and secondary brand actions |
+| `brand-100` | `#E5F5F3` | Selected rows and subtle highlights |
+| `cyan-600` | `#0B7F81` | Accessible teal text and icons |
+| `cyan-500` | `#0FA3A2` | Focus, progress, and active accents |
+| `cyan-100` | `#DFF4F2` | Soft icon and avatar backgrounds |
+| `navy-950` | `#173443` | Strongest text |
+| `navy-800` | `#294B59` | Headings and controls |
+| `slate-700` | `#435D69` | Body text |
+| `slate-500` | `#5F737D` | Secondary text, AA on white and canvas |
+| `slate-300` | `#BFD2D1` | Strong borders |
+| `slate-200` | `#D9E7E5` | Standard borders |
+| `slate-100` | `#EDF5F4` | Dividers and muted surfaces |
 | `surface` | `#FFFFFF` | Primary surface |
-| `canvas` | `#F5F8FC` | Application background |
+| `canvas` | `#F2F8F7` | Application background |
 | `success-600` | `#16845B` | Confirmed, connected, completed |
 | `warning-600` | `#B86A00` | Waiting, attention required |
 | `danger-600` | `#C23B3B` | Failed, disconnected, destructive |
@@ -45,10 +46,11 @@ Status meaning must never rely on color alone. Every status includes a text labe
 
 ## 4. Typography
 
-- Primary family: Inter, with `system-ui`, `Segoe UI`, and sans-serif fallbacks.
-- Display: 32/40, weight 650.
-- Page title: 26/34, weight 650.
-- Section title: 18/26, weight 650.
+- Interface family: DM Sans, with `system-ui`, `Segoe UI`, and sans-serif fallbacks.
+- Display and heading family: Manrope, then DM Sans.
+- Display: 44–50/54, weight 700.
+- Page title: 29/34, weight 700.
+- Section title: 18/26, weight 700.
 - Body: 14/21, weight 400.
 - Label: 12/16, weight 600.
 - Metric: 28/34, weight 700, tabular numerals.
@@ -58,11 +60,11 @@ Status meaning must never rely on color alone. Every status includes a text labe
 
 - Base spacing unit: 4 px.
 - Common spacing: 8, 12, 16, 20, 24, 32, 40, and 48 px.
-- Desktop sidebar: 248 px expanded, 76 px collapsed.
-- Top utility bar: 64 px.
+- Desktop sidebar: 250 px expanded, 76 px collapsed.
+- Top utility bar: 68 px.
 - Content maximum width: 1600 px.
 - Content gutters: 32 px desktop, 20 px tablet, 16 px mobile.
-- Standard panel radius: 14 px.
+- Standard panel radius: 15 px.
 - Control radius: 10 px.
 - Borders: 1 px using `slate-300` at reduced opacity.
 - Elevation is reserved for menus, dialogs, drawers, and sticky controls.
@@ -71,8 +73,8 @@ Status meaning must never rely on color alone. Every status includes a text labe
 
 ### Navigation
 
-- App sidebar with logo, tenant switcher, grouped navigation, help, and user profile.
-- Active items use a brand-tinted background and a strong left indicator.
+- App sidebar with logo, tenant switcher, grouped Operations and Administration navigation, user profile, and sign-out action.
+- Active items use a white surface, deep-teal text, and teal icon emphasis.
 - Mobile uses an accessible sheet opened from the top bar.
 
 ### Buttons
@@ -115,11 +117,11 @@ Supported statuses: `Confirmed`, `Pending`, `Calling`, `Needs reschedule`, `Tran
 
 ### Sign in
 
-Split layout with Y32 brand panel, concise product promise, secure-access messaging, and a clearly labeled demo sign-in action.
+Split layout with a white sign-in panel and soft-teal patient-journey preview. The primary heading is `Welcome back to coordinated care.`; the demo fields are prefilled with `Admin` / `Admin` and the CTA is `Sign in to demo`.
 
 ### Overview
 
-Top row: tenant context, date range, and primary action. Main content: outreach progress, appointment outcomes, live queue, next appointments, and integration status. The operational queue is visually dominant.
+Top row: tenant context, active page, demo state, notifications, and operator avatar. Main content: one four-part outreach signal strip, an active patient journey, a compact human-attention queue, and FHIR health. Human handoffs remain immediately visible.
 
 ### Appointments
 
@@ -163,8 +165,8 @@ Organization identity, locations, time zone, default language, calling windows, 
 
 ## 8. Responsive Behavior
 
-- At 1200 px and above, use the full sidebar and multi-column overview.
-- From 768 to 1199 px, collapse secondary panels and allow the sidebar to reduce.
+- Above 1050 px, use the full sidebar and multi-column overview.
+- From 768 to 1050 px, collapse the sidebar to icons and stack secondary panels.
 - Below 768 px, use a navigation sheet, stacked metrics, simplified tables, and full-screen detail panels.
 - Operational actions remain reachable without horizontal page scrolling.
 
