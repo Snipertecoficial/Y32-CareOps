@@ -58,6 +58,43 @@
 .health-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 0; border-top: 1px solid var(--slate-100); }
 .health-row:first-child { border-top: 0; }
 .health-name { display: flex; align-items: center; gap: 10px; }
+.campaign-card { padding: 20px; border-top: 1px solid var(--slate-100); }
+.campaign-card:first-child { border-top: 0; }
+.campaign-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.campaign-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 15px; }
+.campaign-stats div { color: var(--slate-500); font-size: 11px; }
+.campaign-stats strong { display: block; margin-bottom: 2px; color: var(--navy-800); font-size: 16px; }
+.steps { display: flex; gap: 5px; margin-bottom: 22px; }
+.step { flex: 1; height: 4px; border-radius: 999px; background: var(--slate-200); }
+.step.active { background: var(--brand-600); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.dialog-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 24px; }
+.calls-layout { display: grid; grid-template-columns: minmax(280px, .72fr) minmax(0, 1.4fr); min-height: 590px; overflow: hidden; }
+.call-sidebar { border-right: 1px solid var(--slate-200); }
+.call-sidebar-header { padding: 18px 20px; border-bottom: 1px solid var(--slate-200); }
+.call-row { width: 100%; border: 0; border-top: 1px solid var(--slate-100); text-align: left; background: white; cursor: pointer; }
+.call-row.selected { background: var(--brand-100); }
+.call-detail { padding: 25px; }
+.call-detail-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+.call-identity { display: flex; align-items: center; gap: 13px; }
+.call-status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+.call-status-item { padding: 13px; border-radius: 11px; background: var(--canvas); }
+.call-status-item span { display: block; color: var(--slate-500); font-size: 11px; }
+.call-status-item strong { display: block; margin-top: 4px; }
+.transcript { display: grid; gap: 11px; margin-top: 14px; }
+.transcript-line { max-width: 78%; padding: 12px 14px; border-radius: 12px; background: var(--slate-100); }
+.transcript-line.patient { margin-left: auto; background: var(--brand-100); }
+.transcript-line strong { display: block; margin-bottom: 3px; color: var(--slate-600); font-size: 10px; text-transform: uppercase; }
+.queue-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.queue-column { padding: 14px; border-radius: 14px; background: #eef3f8; }
+.queue-column-header { display: flex; align-items: center; justify-content: space-between; padding: 2px 2px 12px; }
+.queue-column-header h2 { margin: 0; font-size: 14px; }
+.queue-card { padding: 15px; border: 1px solid var(--slate-200); border-radius: 12px; background: white; margin-bottom: 10px; }
+.queue-card .person { margin-bottom: 14px; }
+.queue-card-details { display: grid; gap: 8px; margin-bottom: 14px; color: var(--slate-600); font-size: 12px; }
+.queue-card-details span { display: flex; align-items: center; gap: 7px; }
+.queue-card-actions { display: flex; gap: 8px; }
 
 @media (max-width: 1180px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid { grid-template-columns: 1fr; } }
-@media (max-width: 620px) { .metrics-grid { grid-template-columns: 1fr; } .outreach-legend { grid-template-columns: repeat(2, 1fr); } .detail-grid { grid-template-columns: 1fr; } .toolbar { align-items: stretch; } .toolbar .field { width: 100%; } }
+@media (max-width: 1000px) { .queue-columns { grid-template-columns: 1fr; } .calls-layout { grid-template-columns: 1fr; } .call-sidebar { border-right: 0; border-bottom: 1px solid var(--slate-200); } }
+@media (max-width: 620px) { .metrics-grid { grid-template-columns: 1fr; } .outreach-legend { grid-template-columns: repeat(2, 1fr); } .detail-grid, .form-grid { grid-template-columns: 1fr; } .toolbar { align-items: stretch; } .toolbar .field { width: 100%; } .campaign-stats, .call-status-grid { grid-template-columns: repeat(2, 1fr); } }

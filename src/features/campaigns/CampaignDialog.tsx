@@ -1,0 +1,12 @@
+import { useState } from 'react'
+import { Button } from '../../components/ui/Button'
+import { Dialog } from '../../components/ui/Dialog'
+
+const steps = ['Audience', 'Timing', 'Script', 'Review']
+
+export function CampaignDialog({ open, onClose, onCreate }: { open: boolean; onClose: () => void; onCreate: (name: string) => void }) {
+  const [step, setStep] = useState(0)
+  const [name, setName] = useState('Next-day appointment reminders')
+  const finish = () => { onCreate(name); setStep(0); onClose() }
+  return <Dialog open={open} title="Create reminder campaign" onClose={onClose}><div className="steps" aria-label={`Step ${step + 1} of 4`}>{steps.map((_, index) => <span key={index} className={`step ${index <= step ? 'active' : ''}`} />)}</div><div className="eyebrow">{steps[step]}</div>{step === 0 && <div className="form-grid"><div className="field"><label htmlFor="campaign-name">Campaign name</label><input id="campaign-name" className="input" value={name} onChange={(event) => setName(event.target.value)} /></div><div className="field"><label htmlFor="campaign-audience">Audience</label><select id="campaign-audience" className="select"><option>Appointments tomorrow</option><option>Unconfirmed appointments</option><option>Selected location</option></select></div></div>}{step === 1 && <div className="form-grid"><div className="field"><label htmlFor="campaign-date">Start date</label><input id="campaign-date" className="input" type="date" defaultValue={new Date().toISOString().slice(0, 10)} /></div><div className="field"><label htmlFor="campaign-time">Call time</label><input id="campaign-time" className="input" type="time" defaultValue="17:00" /></div></div>}{step === 2 && <div className="field"><label htmlFor="campaign-script">Reminder script</label><textarea id="campaign-script" className="textarea" defaultValue="Hello {{firstName}}, this is Harbor Behavioral Health calling to confirm your upcoming appointment." /></div>}{step === 3 && <div className="panel" style={{ padding: 18 }}><strong>{name}</strong><p className="subtle" style={{ margin: '6px 0 0' }}>Appointments tomorrow · Starts at 5:00 PM · English and Spanish</p></div>}<div className="dialog-actions"><Button variant="ghost" onClick={step === 0 ? onClose : () => setStep(step - 1)}>{step === 0 ? 'Cancel' : 'Back'}</Button><Button onClick={step === 3 ? finish : () => setStep(step + 1)}>{step === 3 ? 'Create draft' : 'Continue'}</Button></div></Dialog>
+}

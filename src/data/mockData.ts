@@ -64,7 +64,7 @@ export const calls: CallSession[] = [
 export const transfers: TransferRequest[] = [
   { id: 'tr-h-01', tenantId: 'harbor', patientName: 'Maya Thompson', patientInitials: 'MT', waitMinutes: 2, priority: 'High', language: 'English', clinic: 'Downtown Clinic', originalAppointment: `${displayDate(0)}, 9:30 AM`, requestedWindow: 'Tomorrow afternoon', status: 'Waiting' },
   { id: 'tr-h-02', tenantId: 'harbor', patientName: 'Ethan Brooks', patientInitials: 'EB', waitMinutes: 8, priority: 'Standard', language: 'English', clinic: 'Downtown Clinic', originalAppointment: `${displayDate(0)}, 1:30 PM`, requestedWindow: 'Next Monday morning', status: 'Waiting' },
-  { id: 'tr-h-03', tenantId: 'harbor', patientName: 'Camila Ortiz', patientInitials: 'CO', waitMinutes: 0, priority: 'Standard', language: 'Spanish', clinic: 'Downtown Clinic', originalAppointment: `${displayDate(1)}, 9:00 AM`, requestedWindow: 'Thursday after 3 PM', status: 'Assigned', assignee: 'Olivia Carter' },
+  { id: 'tr-h-03', tenantId: 'harbor', patientName: 'Camila Ortiz', patientInitials: 'CO', waitMinutes: 0, priority: 'Standard', language: 'Spanish', clinic: 'Downtown Clinic', originalAppointment: `${displayDate(1)}, 9:00 AM`, requestedWindow: 'Thursday after 3 PM', status: 'Assigned', assignee: 'Marcus Hill' },
   { id: 'tr-n-01', tenantId: 'northstar', patientName: 'Caleb Price', patientInitials: 'CP', waitMinutes: 5, priority: 'Standard', language: 'English', clinic: 'Riverside Office', originalAppointment: `${displayDate(0)}, 2:00 PM`, requestedWindow: 'Friday morning', status: 'Waiting' },
 ]
 
