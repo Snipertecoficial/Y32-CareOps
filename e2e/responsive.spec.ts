@@ -14,11 +14,43 @@ test('mobile navigation manages focus and closes after route selection', async (
   await expect(page.locator('#primary-sidebar')).not.toHaveClass(/open/)
 })
 
+const routes = [
+  '/overview',
+  '/appointments',
+  '/campaigns',
+  '/live-calls',
+  '/reschedule',
+  '/patients',
+  '/assistant',
+  '/integrations',
+  '/team',
+  '/audit',
+  '/settings',
+]
+
 for (const viewport of [{ width: 390, height: 844 }, { width: 834, height: 1194 }]) {
   test(`avoids page overflow at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport)
-    await page.goto('/integrations')
-    const dimensions = await page.evaluate(() => ({ viewport: window.innerWidth, document: document.documentElement.scrollWidth }))
-    expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport)
+    for (const route of routes) {
+      await page.goto(route)
+      const dimensions = await page.evaluate(() => {
+        window.scrollTo({ left: document.documentElement.scrollWidth, top: 0 })
+        return { viewport: window.innerWidth, document: document.documentElement.scrollWidth, scrollX: window.scrollX }
+      })
+      expect(dimensions.scrollX, `${route} should not allow page-level horizontal scrolling at ${viewport.width}px (${dimensions.document}px document)`).toBe(0)
+    }
   })
 }
+
+test('keeps live call identity and metadata on separate lines', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/live-calls')
+
+  const row = page.locator('.call-row').first()
+  const titleBox = await row.locator('.row-title').boundingBox()
+  const metaBox = await row.locator('.row-meta').boundingBox()
+
+  expect(titleBox).not.toBeNull()
+  expect(metaBox).not.toBeNull()
+  expect(metaBox!.y).toBeGreaterThanOrEqual(titleBox!.y + titleBox!.height)
+})
