@@ -1,0 +1,38 @@
+:root {
+  color-scheme: light;
+  --brand-700: #1f49b6;
+  --brand-600: #245bc7;
+  --brand-100: #e8eeff;
+  --cyan-600: #0796aa;
+  --cyan-500: #13b8c4;
+  --cyan-100: #ddf7f8;
+  --navy-950: #10213d;
+  --navy-900: #172a46;
+  --navy-800: #203653;
+  --slate-700: #40536b;
+  --slate-600: #53677e;
+  --slate-500: #6b7c91;
+  --slate-400: #98a6b8;
+  --slate-300: #cad4e0;
+  --slate-200: #dde5ee;
+  --slate-100: #edf2f7;
+  --surface: #ffffff;
+  --canvas: #f5f8fc;
+  --success-700: #106947;
+  --success-600: #16845b;
+  --success-100: #e4f6ef;
+  --warning-700: #935400;
+  --warning-600: #b86a00;
+  --warning-100: #fff1d9;
+  --danger-700: #9e2f2f;
+  --danger-600: #c23b3b;
+  --danger-100: #fee9e9;
+  --info-600: #2878b8;
+  --info-100: #e7f2fb;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-float: 0 18px 54px rgba(16, 33, 61, 0.16);
+  --focus-ring: 0 0 0 3px rgba(36, 91, 199, 0.25);
+  --ease: 180ms ease;
+}
