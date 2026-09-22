@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ToastProvider } from '../components/ui/ToastProvider'
 import '../styles/base.css'
+import '../styles/pages.css'
 import { AppRoutes } from './routes'
 import { TenantProvider } from './TenantProvider'
 
