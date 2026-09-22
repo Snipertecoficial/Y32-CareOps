@@ -185,7 +185,7 @@
 .settings-actions { display: flex; align-items: center; justify-content: flex-end; gap: 16px; }
 .settings-actions span { color: var(--slate-500); font-size: 11px; }
 
-@media (max-width: 1180px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid, .assistant-layout, .patient-layout { grid-template-columns: 1fr; } .patient-detail { position: static; } }
+@media (max-width: 1199px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid, .assistant-layout, .patient-layout { grid-template-columns: 1fr; } .patient-detail { position: static; } }
 @media (max-width: 1000px) { .queue-columns { grid-template-columns: 1fr; } .calls-layout { grid-template-columns: 1fr; } .call-sidebar { border-right: 0; border-bottom: 1px solid var(--slate-200); } }
-@media (max-width: 760px) { .integration-grid, .settings-grid { grid-template-columns: 1fr; } }
+@media (max-width: 767px) { .integration-grid, .settings-grid { grid-template-columns: 1fr; } }
 @media (max-width: 620px) { .metrics-grid { grid-template-columns: 1fr; } .outreach-legend { grid-template-columns: repeat(2, 1fr); } .detail-grid, .form-grid { grid-template-columns: 1fr; } .toolbar { align-items: stretch; } .toolbar .field { width: 100%; } .campaign-stats, .call-status-grid { grid-template-columns: repeat(2, 1fr); } .integration-summary { justify-content: space-between; gap: 12px; } .settings-actions { align-items: stretch; flex-direction: column; } }
