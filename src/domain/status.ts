@@ -1,0 +1,5 @@
+export type AppointmentStatus = 'Confirmed' | 'Pending' | 'Needs reschedule' | 'No answer' | 'Cancelled'
+export type CallStatus = 'Calling' | 'Connected' | 'Completed' | 'No answer' | 'Failed'
+export type TransferStatus = 'Waiting' | 'Assigned' | 'Resolved'
+export type IntegrationStatus = 'Connected' | 'Limited' | 'Disconnected'
+export type CampaignStatus = 'Active' | 'Scheduled' | 'Draft' | 'Completed'
