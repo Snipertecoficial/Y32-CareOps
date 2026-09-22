@@ -12,7 +12,8 @@ import { TeamPage } from '../features/team/TeamPage'
 import { AuditPage } from '../features/audit/AuditPage'
 import { SettingsPage } from '../features/settings/SettingsPage'
 import { DemoEntryPage } from '../features/auth/DemoEntryPage'
+import { RequireDemoSession } from '../features/auth/RequireDemoSession'
 
 export function AppRoutes() {
-  return <Routes><Route path="/" element={<DemoEntryPage />} /><Route element={<AppShell />}><Route path="/overview" element={<OverviewPage />} /><Route path="/appointments" element={<AppointmentsPage />} /><Route path="/campaigns" element={<CampaignsPage />} /><Route path="/live-calls" element={<LiveCallsPage />} /><Route path="/reschedule" element={<ReschedulePage />} /><Route path="/patients" element={<PatientsPage />} /><Route path="/assistant" element={<AssistantPage />} /><Route path="/integrations" element={<IntegrationsPage />} /><Route path="/team" element={<TeamPage />} /><Route path="/audit" element={<AuditPage />} /><Route path="/settings" element={<SettingsPage />} /></Route><Route path="*" element={<Navigate to="/overview" replace />} /></Routes>
+  return <Routes><Route path="/" element={<DemoEntryPage />} /><Route element={<RequireDemoSession />}><Route element={<AppShell />}><Route path="/overview" element={<OverviewPage />} /><Route path="/appointments" element={<AppointmentsPage />} /><Route path="/campaigns" element={<CampaignsPage />} /><Route path="/live-calls" element={<LiveCallsPage />} /><Route path="/reschedule" element={<ReschedulePage />} /><Route path="/patients" element={<PatientsPage />} /><Route path="/assistant" element={<AssistantPage />} /><Route path="/integrations" element={<IntegrationsPage />} /><Route path="/team" element={<TeamPage />} /><Route path="/audit" element={<AuditPage />} /><Route path="/settings" element={<SettingsPage />} /></Route></Route><Route path="*" element={<Navigate to="/overview" replace />} /></Routes>
 }

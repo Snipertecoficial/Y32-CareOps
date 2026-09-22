@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import axe from 'axe-core'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { TenantProvider } from '../app/TenantProvider'
 import { AppRoutes } from '../app/routes'
 import { ToastProvider } from '../components/ui/ToastProvider'
@@ -31,6 +31,8 @@ const routes = [
   ['/audit', 'Audit log'],
   ['/settings', 'Organization settings'],
 ] as const
+
+beforeEach(() => window.sessionStorage.setItem('y32-careops-demo-session', 'active'))
 
 describe.each(routes)('%s accessibility', (path, heading) => {
   it('has a named page heading and no serious axe violations', async () => {

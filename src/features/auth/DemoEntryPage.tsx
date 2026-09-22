@@ -2,17 +2,19 @@ import { ArrowRight, CheckCircle, PhoneCall, ShieldCheck } from '@phosphor-icons
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/y32-logo.jpeg'
+import { startDemoSession } from './demoSession'
 
 export function DemoEntryPage() {
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('Admin')
+  const [password, setPassword] = useState('Admin')
   const [error, setError] = useState('')
 
   const signIn = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (username === 'Admin' && password === 'Admin') {
-      navigate('/overview')
+      startDemoSession()
+      navigate('/overview', { replace: true })
       return
     }
     setError('Incorrect username or password.')

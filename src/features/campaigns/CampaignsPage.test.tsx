@@ -16,6 +16,7 @@ it('opens the guided campaign creator', async () => {
 
 it('uses the selected organization in the reminder script', async () => {
   const user = userEvent.setup()
+  window.sessionStorage.setItem('y32-careops-demo-session', 'active')
   render(<MemoryRouter initialEntries={['/campaigns']}><TenantProvider><ToastProvider><AppRoutes /></ToastProvider></TenantProvider></MemoryRouter>)
   await user.selectOptions(screen.getByRole('combobox', { name: 'Organization' }), 'northstar')
   await user.click(screen.getByRole('link', { name: 'Campaigns' }))

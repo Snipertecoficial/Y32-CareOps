@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { DemoEntryPage } from './DemoEntryPage'
 
 function renderEntry() {
@@ -16,15 +16,23 @@ function renderEntry() {
 }
 
 describe('DemoEntryPage', () => {
+  beforeEach(() => window.sessionStorage.clear())
+
   it('opens the workspace with the default demo credentials', async () => {
     const user = userEvent.setup()
     renderEntry()
 
-    await user.type(screen.getByRole('textbox', { name: 'Username' }), 'Admin')
-    await user.type(screen.getByLabelText('Password'), 'Admin')
     await user.click(screen.getByRole('button', { name: 'Sign in to demo' }))
 
+    expect(window.sessionStorage.getItem('y32-careops-demo-session')).toBe('active')
     expect(screen.getByRole('heading', { name: 'Workspace overview' })).toBeVisible()
+  })
+
+  it('prefills the published demo credentials for one-click access', () => {
+    renderEntry()
+
+    expect(screen.getByRole('textbox', { name: 'Username' })).toHaveValue('Admin')
+    expect(screen.getByLabelText('Password')).toHaveValue('Admin')
   })
 
   it('keeps the login visible and explains invalid credentials', async () => {

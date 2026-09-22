@@ -18,6 +18,7 @@ describe('ReschedulePage', () => {
 
   it('assigns Northstar requests to the Northstar operations manager', async () => {
     const user = userEvent.setup()
+    window.sessionStorage.setItem('y32-careops-demo-session', 'active')
     render(<MemoryRouter initialEntries={['/reschedule']}><TenantProvider><ToastProvider><AppRoutes /></ToastProvider></TenantProvider></MemoryRouter>)
     await user.selectOptions(screen.getByRole('combobox', { name: 'Organization' }), 'northstar')
     await user.click(screen.getByRole('link', { name: 'Reschedule queue' }))
