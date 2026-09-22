@@ -94,7 +94,8 @@
 .queue-card .person { margin-bottom: 14px; }
 .queue-card-details { display: grid; gap: 8px; margin-bottom: 14px; color: var(--slate-600); font-size: 12px; }
 .queue-card-details span { display: flex; align-items: center; gap: 7px; }
-.queue-card-actions { display: flex; gap: 8px; }
+.queue-outcome { margin-bottom: 12px; }
+.queue-card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .patient-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: 18px; align-items: start; }
 .patient-list { display: grid; }
 .patient-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; width: 100%; padding: 15px 18px; border: 0; border-top: 1px solid var(--slate-100); color: inherit; text-align: left; background: white; cursor: pointer; }

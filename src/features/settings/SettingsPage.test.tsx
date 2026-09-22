@@ -13,3 +13,10 @@ it('renders Organization settings and labels local saving as a simulation', asyn
   await user.click(screen.getByRole('button', { name: 'Save organization settings' }))
   expect(screen.getByText('Demo only — no external system will be updated.')).toBeVisible()
 })
+
+it('labels location management as a demo-only action', async () => {
+  const user = userEvent.setup()
+  render(<MemoryRouter><TenantProvider><ToastProvider><SettingsPage /></ToastProvider></TenantProvider></MemoryRouter>)
+  await user.click(screen.getByRole('button', { name: 'Manage Downtown Clinic' }))
+  expect(screen.getByText('Demo only — no external system will be updated.')).toBeVisible()
+})

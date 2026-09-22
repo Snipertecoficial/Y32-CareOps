@@ -31,7 +31,7 @@ The primary colors are derived from the supplied logo and adjusted into accessib
 | `navy-950` | `#10213D` | Sidebar and strongest text |
 | `navy-800` | `#203653` | Headings |
 | `slate-700` | `#40536B` | Body text |
-| `slate-500` | `#6B7C91` | Secondary text |
+| `slate-500` | `#607187` | Secondary text, AA on white and canvas |
 | `slate-300` | `#CAD4E0` | Borders |
 | `slate-100` | `#EDF2F7` | Dividers and muted surfaces |
 | `surface` | `#FFFFFF` | Primary surface |

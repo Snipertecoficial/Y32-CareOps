@@ -14,3 +14,10 @@ it('renders Team & roles and filters members by role', async () => {
   expect(screen.getByText('Marcus Hill')).toBeVisible()
   expect(screen.queryByText('Olivia Carter')).not.toBeInTheDocument()
 })
+
+it('labels member management as a demo-only action', async () => {
+  const user = userEvent.setup()
+  render(<MemoryRouter><TenantProvider><ToastProvider><TeamPage /></ToastProvider></TenantProvider></MemoryRouter>)
+  await user.click(screen.getByRole('button', { name: 'Manage Olivia Carter' }))
+  expect(screen.getByText('Demo only — no external system will be updated.')).toBeVisible()
+})

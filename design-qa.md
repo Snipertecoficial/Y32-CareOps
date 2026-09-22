@@ -21,6 +21,7 @@
 | `docs/design-qa/appointments-mobile.png` | 390 × 844 | 390 × 1564 | Mobile filters and contained data table |
 | `docs/design-qa/live-calls-mobile.png` | 390 × 844 | 390 × 1431 | Mobile call list and conversation workspace |
 | `docs/design-qa/team-mobile.png` | 390 × 844 | 390 × 844 | Mobile role filters and contained member table |
+| `docs/design-qa/reschedule-desktop.png` | 1440 × 1024 | 1440 × 1024 | Northstar tenant context, Grace Turner assignment, and explicit resolution outcome |
 
 The full-view comparison confirms that the prototype carries the public site's navy, blue, teal, and white identity into a calmer healthcare-operations interface. A separate logo crop was not needed because the application imports the exact supplied 1024 × 1024 logo asset instead of recreating it.
 
@@ -50,6 +51,14 @@ The full-view comparison confirms that the prototype carries the public site's n
 - Regression evidence: all eleven routes reject page-level horizontal movement at 390 px and 834 px; the live-call title and metadata bounding boxes no longer overlap.
 - Console review: no warning or error entries were present after navigating every route in the in-app browser.
 - No actionable P0, P1, or P2 finding remains.
+
+### Pass 3 — final-review fixes passed
+
+- Verified the Northstar context end to end: organization identity, operator avatar/name, queue data, and assignment all resolve to the active tenant.
+- Verified all three resolution outcomes, return-to-waiting behavior, keyboard focus containment/restoration, Escape dismissal, and demo-only notices on non-persistent controls.
+- Rechecked secondary text against white and canvas backgrounds after updating `slate-500`; automated accessibility coverage now includes color contrast.
+- Persistent evidence: `reschedule-desktop.png` shows Caleb Price assigned to Grace Turner with `Rescheduled` selected and the local-only notice visible.
+- No actionable P0, P1, or P2 finding remains after the final review fix pass.
 
 ## Open questions
 

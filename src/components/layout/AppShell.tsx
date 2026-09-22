@@ -28,10 +28,11 @@ export function AppShell() {
   const [isMobile, setIsMobile] = useState(false)
   const sidebarRef = useRef<HTMLElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
-  const { tenantId, tenant, tenants, setTenantId } = useTenant()
+  const { tenantId, tenant, tenants, setTenantId, repository } = useTenant()
   const location = useLocation()
   const navigate = useNavigate()
   const current = routeItems.find(([path]) => location.pathname.startsWith(path))?.[1] ?? 'Overview'
+  const operator = repository.getTeam(tenantId).find((member) => member.role === 'Operations manager') ?? repository.getTeam(tenantId)[0]
 
   const changeTenant = (id: TenantId) => {
     setTenantId(id)
@@ -104,11 +105,11 @@ export function AppShell() {
         <nav className="nav-list">{routeItems.slice(0, 7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
         <div className="nav-group-label">Administration</div>
         <nav className="nav-list">{routeItems.slice(7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
-        <div className="sidebar-footer"><div className="demo-badge"><span className="demo-dot" /><span>Synthetic data only</span></div><div className="profile-row"><span className="avatar">OC</span><span className="profile-meta"><strong>Olivia Carter</strong><small>Operations manager</small></span></div></div>
+        <div className="sidebar-footer"><div className="demo-badge"><span className="demo-dot" /><span>Synthetic data only</span></div><div className="profile-row"><span className="avatar">{operator?.initials ?? 'Y32'}</span><span className="profile-meta"><strong>{operator?.name ?? 'CareOps team'}</strong><small>{operator?.role ?? 'Operations'}</small></span></div></div>
       </aside>
       <section className="main-area">
         <header className="mobile-header"><div className="mobile-brand"><img src={logo} alt="" />Y32 CareOps</div><button ref={menuButtonRef} className="icon-button" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="primary-sidebar" onClick={() => menuOpen ? closeMobileMenu(false) : setMenuOpen(true)}>{menuOpen ? <X size={21} /> : <List size={21} />}</button></header>
-        <header className="topbar"><div className="breadcrumb"><span>{tenant.shortName}</span><span>/</span><strong>{current}</strong></div><div className="topbar-actions"><span className="badge badge-info">Demo environment</span><button className="icon-button" aria-label="Notifications"><Bell size={19} /></button><span className="avatar">OC</span></div></header>
+        <header className="topbar"><div className="breadcrumb"><span>{tenant.shortName}</span><span>/</span><strong>{current}</strong></div><div className="topbar-actions"><span className="badge badge-info">Demo environment</span><button className="icon-button" aria-label="Notifications"><Bell size={19} /></button><span className="avatar">{operator?.initials ?? 'Y32'}</span></div></header>
         <main className="content" id="main-content"><Outlet /></main>
       </section>
     </div>
