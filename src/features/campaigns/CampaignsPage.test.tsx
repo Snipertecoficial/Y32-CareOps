@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { expect, it } from 'vitest'
 import { TenantProvider } from '../../app/TenantProvider'
 import { ToastProvider } from '../../components/ui/ToastProvider'
 import { CampaignsPage } from './CampaignsPage'
