@@ -7,11 +7,15 @@ import { LiveCallsPage } from '../features/calls/LiveCallsPage'
 import { ReschedulePage } from '../features/reschedule/ReschedulePage'
 import { PatientsPage } from '../features/patients/PatientsPage'
 import { AssistantPage } from '../features/assistant/AssistantPage'
+import { IntegrationsPage } from '../features/integrations/IntegrationsPage'
+import { TeamPage } from '../features/team/TeamPage'
+import { AuditPage } from '../features/audit/AuditPage'
+import { SettingsPage } from '../features/settings/SettingsPage'
 
 function PlaceholderPage({ title }: { title: string }) {
   return <><header className="page-heading"><div><div className="eyebrow">Y32 CareOps</div><h1>{title}</h1><p>This workspace is ready for its tenant-scoped operational experience.</p></div></header><section className="panel"><div className="panel-body" style={{ paddingTop: 24 }}>Screen content is being prepared.</div></section></>
 }
 
 export function AppRoutes() {
-  return <Routes><Route element={<AppShell />}><Route path="/overview" element={<OverviewPage />} /><Route path="/appointments" element={<AppointmentsPage />} /><Route path="/campaigns" element={<CampaignsPage />} /><Route path="/live-calls" element={<LiveCallsPage />} /><Route path="/reschedule" element={<ReschedulePage />} /><Route path="/patients" element={<PatientsPage />} /><Route path="/assistant" element={<AssistantPage />} />{routeItems.slice(7).map(([path, title]) => <Route key={path} path={path} element={<PlaceholderPage title={title} />} />)}<Route path="*" element={<Navigate to="/overview" replace />} /></Route></Routes>
+  return <Routes><Route element={<AppShell />}><Route path="/overview" element={<OverviewPage />} /><Route path="/appointments" element={<AppointmentsPage />} /><Route path="/campaigns" element={<CampaignsPage />} /><Route path="/live-calls" element={<LiveCallsPage />} /><Route path="/reschedule" element={<ReschedulePage />} /><Route path="/patients" element={<PatientsPage />} /><Route path="/assistant" element={<AssistantPage />} /><Route path="/integrations" element={<IntegrationsPage />} /><Route path="/team" element={<TeamPage />} /><Route path="/audit" element={<AuditPage />} /><Route path="/settings" element={<SettingsPage />} />{routeItems.slice(11).map(([path, title]) => <Route key={path} path={path} element={<PlaceholderPage title={title} />} />)}<Route path="*" element={<Navigate to="/overview" replace />} /></Route></Routes>
 }
