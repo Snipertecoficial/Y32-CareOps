@@ -13,6 +13,11 @@ npm run dev
 
 Open `http://localhost:5173`.
 
+Demo access:
+
+- Username: `Admin`
+- Password: `Admin`
+
 ## Local Docker preview
 
 ```bash

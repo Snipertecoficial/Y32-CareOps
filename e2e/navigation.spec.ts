@@ -14,10 +14,12 @@ const routes = [
   ['/settings', 'Organization settings'],
 ] as const
 
-test('opens the branded demo entry before the application shell', async ({ page }) => {
+test('opens the branded demo entry and accepts the default credentials', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1, name: 'Y32 CareOps' })).toBeVisible()
-  await page.getByRole('link', { name: 'Enter demo workspace' }).click()
+  await page.getByRole('textbox', { name: 'Username' }).fill('Admin')
+  await page.getByLabel('Password').fill('Admin')
+  await page.getByRole('button', { name: 'Sign in to demo' }).click()
   await expect(page).toHaveURL(/\/overview$/)
 })
 

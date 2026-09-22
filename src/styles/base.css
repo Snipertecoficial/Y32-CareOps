@@ -106,7 +106,13 @@ h2 { font-size: 18px; line-height: 1.4; }
 .entry-tenant { display: flex; align-items: center; gap: 12px; padding: 16px; border: 1px solid var(--slate-200); border-radius: 13px; background: var(--canvas); }
 .entry-tenant > span:last-child { display: grid; gap: 3px; }
 .entry-tenant small { color: var(--slate-500); }
+.entry-login-form { display: grid; gap: 14px; }
+.entry-login-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.entry-login-error { margin: 0 !important; color: var(--danger-700) !important; font-size: 12px; font-weight: 650; }
 .entry-button { align-self: flex-start; min-width: 225px; text-decoration: none; }
+.entry-credentials { display: flex; align-items: center; gap: 10px 22px; flex-wrap: wrap; padding: 12px 14px; border: 1px solid var(--info-100); border-radius: 11px; color: var(--slate-600); background: #f2f7ff; font-size: 12px; }
+.entry-credentials span { display: flex; gap: 6px; }
+.entry-credentials strong { color: var(--navy-950); }
 .entry-disclaimer { margin: -12px 0 0 !important; font-size: 11px; }
 
 @media (max-width: 1199px) {
@@ -125,6 +131,7 @@ h2 { font-size: 18px; line-height: 1.4; }
   .entry-copy h1 { font-size: 52px; }
   .entry-proof { gap: 12px; }
   .demo-entry-panel { padding: 42px 24px; }
+  .entry-login-fields { grid-template-columns: 1fr; }
   .app-shell { display: block; }
   .sidebar { position: fixed; left: 0; transform: translateX(-105%); width: min(304px, 88vw); padding-inline: 16px; transition: transform var(--ease); }
   .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-float); }
