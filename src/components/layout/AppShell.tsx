@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ElementType, type KeyboardEvent } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Bell, CalendarBlank, ChartPieSlice, CirclesFour, ClockCounterClockwise, Gear, Headset, List, Megaphone, PhoneCall, Robot, ShieldCheck, SignOut, Users, X } from '@phosphor-icons/react'
+import { Bell, CalendarBlank, ChartPieSlice, CirclesFour, ClockCounterClockwise, Gear, Headset, List, Megaphone, PhoneCall, Robot, ShieldCheck, SignOut, SpinnerGap, Users, X } from '@phosphor-icons/react'
 import logo from '../../assets/y32-logo.jpeg'
 import { useTenant } from '../../app/TenantProvider'
 import type { TenantId } from '../../domain/types'
@@ -35,6 +35,7 @@ export function AppShell() {
   const navigate = useNavigate()
   const { notify } = useToast()
   const current = routeItems.find(([path]) => location.pathname.startsWith(path))?.[1] ?? 'Overview'
+  const demoState = new URLSearchParams(location.search).get('demoState')
   const operator = repository.getTeam(tenantId).find((member) => member.role === 'Operations manager') ?? repository.getTeam(tenantId)[0]
 
   const changeTenant = (id: TenantId) => {
@@ -110,15 +111,19 @@ export function AppShell() {
           <select id="tenant-select" value={tenantId} onChange={(event) => changeTenant(event.target.value as TenantId)}>{tenants.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
         </div>
         <div className="nav-group-label">Operations</div>
-        <nav className="nav-list">{routeItems.slice(0, 7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
+        <nav className="nav-list" aria-label="Operations">{routeItems.slice(0, 7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
         <div className="nav-group-label">Administration</div>
-        <nav className="nav-list">{routeItems.slice(7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
+        <nav className="nav-list" aria-label="Administration">{routeItems.slice(7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
         <div className="sidebar-footer"><div className="demo-badge"><span className="demo-dot" /><span>Synthetic data only</span></div><div className="profile-row"><span className="avatar">{operator?.initials ?? 'Y32'}</span><span className="profile-meta"><strong>{operator?.name ?? 'CareOps team'}</strong><small>{operator?.role ?? 'Operations'}</small></span></div><button className="sign-out-button" type="button" aria-label="Sign out" onClick={signOut}><SignOut size={18} aria-hidden="true" /><span>Sign out</span></button></div>
       </aside>
       <section className="main-area">
         <header className="mobile-header"><div className="mobile-brand"><img src={logo} alt="" />Y32 CareOps</div><button ref={menuButtonRef} className="icon-button" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="primary-sidebar" onClick={() => menuOpen ? closeMobileMenu(false) : setMenuOpen(true)}>{menuOpen ? <X size={21} /> : <List size={21} />}</button></header>
-        <header className="topbar"><div className="breadcrumb"><span>{tenant.shortName}</span><span>/</span><strong>{current}</strong></div><div className="topbar-actions"><span className="badge badge-success">Demo environment</span><button className="icon-button" aria-label="Notifications" onClick={() => notify('No new demo notifications.')}><Bell size={19} /></button><span className="avatar topbar-avatar">{operator?.initials ?? 'Y32'}</span></div></header>
-        <main className="content" id="main-content"><Outlet /></main>
+        <header className="topbar"><div className="breadcrumb"><span>{tenant.shortName}</span><span>/</span><strong>{current}</strong></div><label className="tablet-tenant-select"><span className="sr-only">Organization (compact)</span><select value={tenantId} onChange={(event) => changeTenant(event.target.value as TenantId)}>{tenants.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><div className="topbar-actions"><span className="badge badge-success">Demo environment</span><button className="icon-button" aria-label="Notifications" onClick={() => notify('No new demo notifications.')}><Bell size={19} /></button><span className="avatar topbar-avatar">{operator?.initials ?? 'Y32'}</span></div></header>
+        <main className="content" id="main-content">
+          {demoState === 'loading' ? <section className="route-state" role="status" aria-label={`${current} loading state`} aria-live="polite"><SpinnerGap className="route-spinner" size={28} aria-hidden="true" /><h1>Loading {current} data</h1><p>Preparing this tenant workspace.</p></section>
+            : demoState === 'error' ? <section className="route-state" role="alert"><h1>{current} data is temporarily unavailable</h1><p>This recoverable demo state shows how the product responds when a service cannot be reached.</p><button className="button button-primary" type="button" aria-label={`Retry loading ${current}`} onClick={() => navigate(location.pathname, { replace: true })}>Retry</button></section>
+              : <Outlet />}
+        </main>
       </section>
     </div>
   </>

@@ -69,6 +69,9 @@ test('keeps the collapsed tablet sidebar concise without losing the sign-out nam
   await expect(page.locator('.sign-out-button span')).toBeHidden()
   await expect(page.getByRole('link', { name: 'Appointments', exact: true })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Organization settings', exact: true })).toBeVisible()
+  await expect(page.getByRole('combobox', { name: 'Organization (compact)' })).toBeVisible()
+  await page.getByRole('combobox', { name: 'Organization (compact)' }).selectOption('northstar')
+  await expect(page.getByText('Northstar', { exact: true })).toBeVisible()
 })
 
 test('keeps live call identity and metadata on separate lines', async ({ page }) => {

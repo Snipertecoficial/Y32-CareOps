@@ -22,6 +22,8 @@ describe('AppShell', () => {
     expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/overview')
     expect(screen.getByRole('combobox', { name: 'Organization' })).toHaveValue('harbor')
     expect(screen.getByText('Demo environment')).toBeVisible()
+    expect(screen.getByRole('navigation', { name: 'Operations' })).toBeVisible()
+    expect(screen.getByRole('navigation', { name: 'Administration' })).toBeVisible()
     expect(routeItems).toHaveLength(11)
     for (const [, label] of routeItems) {
       expect(screen.getByRole('link', { name: label })).toBeInTheDocument()
@@ -55,5 +57,22 @@ describe('AppShell', () => {
 
     expect(window.sessionStorage.getItem('y32-careops-demo-session')).toBeNull()
     expect(screen.getByRole('heading', { name: 'Welcome back to coordinated care.' })).toBeVisible()
+  })
+
+  it('exposes a recoverable demo error state for every routed data view', async () => {
+    const user = userEvent.setup()
+    window.sessionStorage.setItem('y32-careops-demo-session', 'active')
+    render(<MemoryRouter initialEntries={['/appointments?demoState=error']}><TenantProvider><ToastProvider><AppRoutes /></ToastProvider></TenantProvider></MemoryRouter>)
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Appointments data is temporarily unavailable')
+    await user.click(screen.getByRole('button', { name: 'Retry loading Appointments' }))
+    expect(screen.getByRole('heading', { name: 'Appointments' })).toBeVisible()
+  })
+
+  it('exposes a labeled loading state for routed data views', () => {
+    window.sessionStorage.setItem('y32-careops-demo-session', 'active')
+    render(<MemoryRouter initialEntries={['/appointments?demoState=loading']}><TenantProvider><ToastProvider><AppRoutes /></ToastProvider></TenantProvider></MemoryRouter>)
+
+    expect(screen.getByRole('status', { name: 'Appointments loading state' })).toHaveTextContent('Loading Appointments data')
   })
 })

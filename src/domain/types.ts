@@ -55,6 +55,7 @@ export interface Campaign {
   reschedule: number
   failed: number
   status: CampaignStatus
+  script?: string
 }
 
 export interface TranscriptLine {

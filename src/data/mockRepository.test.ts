@@ -13,4 +13,24 @@ describe('mock repository tenant isolation', () => {
     expect(repo.resolveTenant('unknown').id).toBe(DEFAULT_TENANT_ID)
     expect(repo.getAppointments('unknown').every((row) => row.tenantId === DEFAULT_TENANT_ID)).toBe(true)
   })
+
+  it('provides enough records to demonstrate both tenant workspaces', () => {
+    const repo = createMockRepository()
+    const operationalLists = [
+      repo.getAppointments,
+      repo.getPatients,
+      repo.getCampaigns,
+      repo.getCalls,
+      repo.getTransfers,
+      repo.getTeam,
+      repo.getAuditEvents,
+    ]
+
+    for (const getRows of operationalLists) {
+      expect(getRows('harbor')).toHaveLength(8)
+      expect(getRows('northstar')).toHaveLength(3)
+    }
+    expect(repo.getIntegrations('harbor')).toHaveLength(4)
+    expect(repo.getIntegrations('northstar')).toHaveLength(4)
+  })
 })

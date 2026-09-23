@@ -1,6 +1,6 @@
 # Y32 CareOps Delivery Roadmap
 
-**Version:** 1.1
+**Version:** 1.2
 **Date:** September 22, 2026
 **Language of the product:** English
 **Current stage:** Interactive sales prototype
@@ -22,9 +22,10 @@ Delivered in the local prototype:
 - Calm Care sign-in and fixed desktop sidebar using the Y32 logo and teal palette.
 - Tab-scoped demo session with `Admin` / `Admin`, protected routes, and sign out.
 - Eleven internal destinations across Operations and Administration.
-- Two synthetic tenant contexts with isolated mock records.
+- Two synthetic tenant contexts with isolated mock records: eight per Harbor operational list, three per Northstar operational list, and four integration cards per tenant.
 - Search, filters, appointment and transfer-detail drawers, dialogs, campaign wizard, call selection, queue actions, form feedback, and notifications.
-- Responsive desktop, tablet, and mobile navigation, including an overflow-safe stacked sign-in and accessible names in the collapsed sidebar.
+- Responsive desktop, tablet, and mobile navigation, including an overflow-safe stacked sign-in, a compact tablet tenant switcher, named navigation landmarks, and accessible names in the collapsed sidebar.
+- Route-level loading and recoverable-error demonstrations available through `demoState` query flags.
 - Automated component, accessibility, navigation, build, and Docker checks.
 
 Exit criteria:
@@ -38,18 +39,18 @@ Exit criteria:
 | Surface | Demonstrable prototype behavior | Production work already scheduled |
 |---|---|---|
 | Sign in | `Admin` / `Admin` creates a tab-scoped session; protected routes redirect unauthenticated visitors | OIDC/SSO, MFA policy, server session, timeout, lockout, and role claims in Phases 2 and 4 |
-| Overview | Opens campaigns, routes human-attention items to the queue, and opens integration health | Event-backed aggregates and real-time queue telemetry in Phase 4 |
+| Overview | Opens campaigns, uses `Open request` to route human-attention items to the queue, and opens integration health | Event-backed aggregates and real-time queue telemetry in Phase 4 |
 | Appointments | Search, status/location filters, list/calendar state, empty-state recovery, and appointment drawer | Approved appointment import, pagination, freshness, and audited actions in Phases 3 and 4 |
-| Campaigns | Four-step creation flow adds a local Draft and labels the action as simulated | Persistence, eligibility, scheduling, approval, launch, pause, retry, and cancellation in Phase 4 |
+| Campaigns | Four-step creation preserves name, audience, timing, and script through Review, adds a local Draft, and labels the action as simulated | Persistence, eligibility, scheduling, approval, launch, pause, retry, and cancellation in Phase 4 |
 | Live calls | Selecting a call updates transcript, intent, connection, and transfer context | Telephony webhooks/stream, reconnect handling, recording policy, and supervisor controls in Phases 3 and 4 |
 | Reschedule queue | Accept, inspect Details, choose outcome, resolve, and return to queue update local tenant-scoped state | Atomic assignment, SLA tracking, concurrency protection, reconciliation, and approved write-back in Phase 4 |
 | Patients | Search, language/consent filtering, and patient selection update the communication panel | Minimum-necessary server access, consent enforcement, masking, and audited access in Phase 4 |
-| AI assistant | Voice, language, script, call window, retry, disclosure, and escalation forms update the demo state | Versioning, approvals, evaluations, guardrails, secret isolation, and rollback in Phase 4 |
+| AI assistant | Voice, language, script, call window, retry, disclosure, and escalation forms update the demo state; live preview follows the active tenant and appointment | Versioning, approvals, evaluations, guardrails, secret isolation, and rollback in Phase 4 |
 | Integrations | Capability cards and masked forms demonstrate Credible, scheduling, telephony, and AI setup; unsupported write-back stays disabled | Vendor sandbox validation in Phases 1 and 3; encrypted secrets and capability discovery in Phases 2 and 4 |
 | Team & roles | Role/location filters and a local invite dialog demonstrate administration | IdP invitations, least privilege, access reviews, and tenant-bound RBAC in Phases 2 and 4 |
 | Audit log | Actor/category/outcome/date filters narrow synthetic immutable-style events and expose correlation context | Append-only store, export, retention, investigation, and reconciliation in Phases 2 and 4 |
 | Organization settings | Tenant identity, locations, calling defaults, escalation, and retention save locally with demo feedback | Validated persistence, approvals, policy enforcement, audit events, and rollback in Phase 4 |
-| Global shell | Tenant switch resets to Overview with isolated data; notifications provide feedback; Sign out clears the demo session | Server-authorized tenant context, notification center, token revocation, and IdP logout in Phases 2 and 4 |
+| Global shell | Desktop/sidebar and compact-tablet tenant switching reset to Overview with isolated data; notifications provide feedback; Sign out clears the demo session; query flags demonstrate loading and retryable errors | Server-authorized tenant context, notification center, request telemetry, token revocation, and IdP logout in Phases 2 and 4 |
 
 ## Phase 1 — Vendor and workflow discovery
 

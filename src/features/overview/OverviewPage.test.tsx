@@ -11,5 +11,7 @@ describe('OverviewPage', () => {
     expect(screen.getByRole('region', { name: 'Outreach status' })).toBeVisible()
     expect(screen.getByRole('heading', { name: 'Active patient journey' })).toBeVisible()
     expect(screen.getByRole('heading', { name: 'Human attention' })).toBeVisible()
+    expect(screen.getByRole('link', { name: 'Open Maya Thompson request' })).toHaveTextContent('Open request')
+    expect(screen.queryByText('Accept')).not.toBeInTheDocument()
   })
 })

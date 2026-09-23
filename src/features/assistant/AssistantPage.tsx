@@ -1,17 +1,23 @@
 import { Headset, Info, PhoneTransfer, Play, ShieldCheck, Translate } from '@phosphor-icons/react'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useTenant } from '../../app/TenantProvider'
 import { Button } from '../../components/ui/Button'
 import { useToast } from '../../components/ui/ToastProvider'
 import { renderScriptPreview } from './scriptPreview'
 
-const DEFAULT_TEMPLATE = 'Hello {{firstName}}, this is Ava, the AI appointment assistant for Harbor Behavioral Health. Your appointment is {{date}} at {{time}}. Will you be able to attend?'
+const createDefaultTemplate = (tenantName: string) => `Hello {{firstName}}, this is Ava, the AI appointment assistant for ${tenantName}. Your appointment is {{date}} at {{time}}. Will you be able to attend?`
 
 export function AssistantPage() {
-  const { tenant } = useTenant()
+  const { tenant, tenantId, repository } = useTenant()
   const { notify } = useToast()
-  const [template, setTemplate] = useState(DEFAULT_TEMPLATE.replace('Harbor Behavioral Health', tenant.name))
-  const preview = renderScriptPreview(template, { firstName: 'Maya' }, { date: 'September 24', time: '10:30 AM' })
+  const [template, setTemplate] = useState(() => createDefaultTemplate(tenant.name))
+  const appointment = repository.getAppointments(tenantId)[0]
+  const firstName = appointment?.patientName.split(' ')[0] ?? 'Patient'
+  const preview = renderScriptPreview(template, { firstName }, { date: appointment?.date ?? 'your scheduled date', time: appointment?.time ?? 'your scheduled time' })
+
+  useEffect(() => {
+    setTemplate(createDefaultTemplate(tenant.name))
+  }, [tenant.name])
   const save = (event: FormEvent) => {
     event.preventDefault()
     notify('Demo only — no external system will be updated.')
