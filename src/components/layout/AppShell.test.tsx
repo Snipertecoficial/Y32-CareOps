@@ -30,22 +30,21 @@ describe('AppShell', () => {
     }
   })
 
-  it('opens the project documents from the sidebar without leaving the demo', () => {
+  it('keeps project document navigation inside the app', () => {
     render(<MemoryRouter initialEntries={['/overview']}><TenantProvider><ToastProvider><AppShell /></ToastProvider></TenantProvider></MemoryRouter>)
 
     const documents = screen.getByRole('navigation', { name: 'Project documents' })
     const expectedLinks = [
-      ['PRD', 'PRD.md'],
-      ['Roadmap', 'ROADMAP.md'],
-      ['API feasibility', 'API_FEASIBILITY.md'],
-      ['Design system', 'DESIGN_SYSTEM.md'],
+      ['PRD', '/documents/prd'],
+      ['Roadmap', '/documents/roadmap'],
+      ['API feasibility', '/documents/api-feasibility'],
+      ['Design system', '/documents/design-system'],
     ] as const
 
-    for (const [label, filename] of expectedLinks) {
+    for (const [label, path] of expectedLinks) {
       const link = within(documents).getByRole('link', { name: label })
-      expect(link).toHaveAttribute('href', `https://github.com/Snipertecoficial/Y32-CareOps/blob/main/docs/${filename}`)
-      expect(link).toHaveAttribute('target', '_blank')
-      expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+      expect(link).toHaveAttribute('href', path)
+      expect(link).not.toHaveAttribute('target')
     }
   })
 

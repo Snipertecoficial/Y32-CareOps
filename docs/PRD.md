@@ -1,7 +1,7 @@
 # Y32 CareOps — Product Requirements Document
 
-**Document version:** 0.4
-**Date:** September 22, 2026  
+**Document version:** 0.5
+**Date:** September 25, 2026\
 **Product stage:** Client-validation prototype  
 **Primary product language:** English  
 **Working product name:** Y32 CareOps
@@ -117,6 +117,7 @@ The demo uses one published prototype account (`Admin` / `Admin`). It exposes ev
 | Team & roles `/team` | People, roles, status, and location scope | Filter or invite | Filters rows or opens a local invite dialog | Identity-provider invitation, RBAC, least privilege, and access review |
 | Audit log `/audit` | Tenant-scoped events and correlation IDs | Search/filter | Narrows the visible immutable-style event list | Append-only audit store, retention, export, and investigation workflow |
 | Organization settings `/settings` | Tenant identity, time zone, locations, notifications, and retention | Edit and save | Updates local form state and shows a demo-only notice | Validated persistence, change approval, audit event, and policy enforcement |
+| Project documents `/documents/*` | PRD, Roadmap, API feasibility, and Design system | Open a document or select a Roadmap phase | Reads the complete document inside the app; the seven-phase visual map links to each phase's details | Version review and publishing controls if documents become part of the production workflow |
 | Global sidebar | Organization selector | Change organization | Returns to Overview and replaces all visible records with the selected tenant | Server-authorized tenant context and per-tenant data isolation |
 | Global top bar | Notifications | Click bell | Shows `No new demo notifications.` | Notification center backed by actionable events and read state |
 | Global sidebar | Sign out | Click Sign out | Clears the demo session and returns to Sign in | Identity-provider logout, token revocation, and server-session termination |

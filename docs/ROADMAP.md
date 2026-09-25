@@ -1,7 +1,7 @@
 # Y32 CareOps Delivery Roadmap
 
-**Version:** 1.2
-**Date:** September 22, 2026
+**Version:** 1.3
+**Date:** September 25, 2026
 **Language of the product:** English
 **Current stage:** Interactive sales prototype
 
@@ -21,7 +21,7 @@ Delivered in the local prototype:
 
 - Calm Care sign-in and fixed desktop sidebar using the Y32 logo and teal palette.
 - Tab-scoped demo session with `Admin` / `Admin`, protected routes, and sign out.
-- Eleven internal destinations across Operations and Administration.
+- Eleven Operations and Administration destinations, plus four in-app Project documents with a visual delivery map.
 - Two synthetic tenant contexts with isolated mock records: eight per Harbor operational list, three per Northstar operational list, and four integration cards per tenant.
 - Search, filters, appointment and transfer-detail drawers, dialogs, campaign wizard, call selection, queue actions, form feedback, and notifications.
 - Responsive desktop, tablet, and mobile navigation, including an overflow-safe stacked sign-in, a compact tablet tenant switcher, named navigation landmarks, and accessible names in the collapsed sidebar.
@@ -50,6 +50,7 @@ Exit criteria:
 | Team & roles | Role/location filters and a local invite dialog demonstrate administration | IdP invitations, least privilege, access reviews, and tenant-bound RBAC in Phases 2 and 4 |
 | Audit log | Actor/category/outcome/date filters narrow synthetic immutable-style events and expose correlation context | Append-only store, export, retention, investigation, and reconciliation in Phases 2 and 4 |
 | Organization settings | Tenant identity, locations, calling defaults, escalation, and retention save locally with demo feedback | Validated persistence, approvals, policy enforcement, audit events, and rollback in Phase 4 |
+| Project documents | PRD, Roadmap, API feasibility, and Design system open as complete in-app readers; the Roadmap has a linked visual phase map | Version review and publishing controls when documents become part of the production workflow |
 | Global shell | Desktop/sidebar and compact-tablet tenant switching reset to Overview with isolated data; notifications provide feedback; Sign out clears the demo session; query flags demonstrate loading and retryable errors | Server-authorized tenant context, notification center, request telemetry, token revocation, and IdP logout in Phases 2 and 4 |
 
 ## Phase 1 — Vendor and workflow discovery

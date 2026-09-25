@@ -55,7 +55,7 @@ The included `vercel.json` sends client-side routes back to `index.html`, so dir
 
 ## Product documentation
 
-The prototype sidebar links directly to the four primary documents below on GitHub. They open in a new tab so the demo stays in place.
+The Project documents menu opens the four primary documents inside the app. Each page includes a table of contents and the complete source text. The Roadmap also includes a drawn, seven-phase map with links to the full phase details. The Markdown files below remain the source of truth for the in-app reader.
 
 - [`docs/PRD.md`](docs/PRD.md) — product requirements and release boundary
 - [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) — visual tokens and interface standards
@@ -63,6 +63,7 @@ The prototype sidebar links directly to the four primary documents below on GitH
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — phased path from prototype to controlled production rollout
 - [`docs/superpowers/specs/2026-09-22-y32-careops-design.md`](docs/superpowers/specs/2026-09-22-y32-careops-design.md) — approved prototype design
 - [`docs/superpowers/plans/2026-09-22-y32-careops-prototype.md`](docs/superpowers/plans/2026-09-22-y32-careops-prototype.md) — implementation plan
+- [`docs/superpowers/plans/2026-09-25-in-app-project-documents.md`](docs/superpowers/plans/2026-09-25-in-app-project-documents.md) — in-app document reader implementation plan
 - [`design-qa.md`](design-qa.md) — visual quality review
 
 ## Demo safety

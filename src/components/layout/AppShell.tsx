@@ -26,13 +26,11 @@ const icons: Record<(typeof routeItems)[number][1], ElementType> = {
 }
 
 const documentItems = [
-  ['PRD', 'PRD.md'],
-  ['Roadmap', 'ROADMAP.md'],
-  ['API feasibility', 'API_FEASIBILITY.md'],
-  ['Design system', 'DESIGN_SYSTEM.md'],
+  ['PRD', 'prd'],
+  ['Roadmap', 'roadmap'],
+  ['API feasibility', 'api-feasibility'],
+  ['Design system', 'design-system'],
 ] as const
-
-const documentsBaseUrl = 'https://github.com/Snipertecoficial/Y32-CareOps/blob/main/docs'
 
 export function AppShell() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -43,7 +41,9 @@ export function AppShell() {
   const location = useLocation()
   const navigate = useNavigate()
   const { notify } = useToast()
-  const current = routeItems.find(([path]) => location.pathname.startsWith(path))?.[1] ?? 'Overview'
+  const current = routeItems.find(([path]) => location.pathname.startsWith(path))?.[1]
+    ?? documentItems.find(([, slug]) => location.pathname === `/documents/${slug}`)?.[0]
+    ?? 'Overview'
   const demoState = new URLSearchParams(location.search).get('demoState')
   const operator = repository.getTeam(tenantId).find((member) => member.role === 'Operations manager') ?? repository.getTeam(tenantId)[0]
 
@@ -122,7 +122,7 @@ export function AppShell() {
         <div className="nav-group-label">Operations</div>
         <nav className="nav-list" aria-label="Operations">{routeItems.slice(0, 7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
         <div className="nav-group-label">Project documents</div>
-        <nav className="nav-list" aria-label="Project documents">{documentItems.map(([label, filename]) => <a key={filename} href={`${documentsBaseUrl}/${filename}`} target="_blank" rel="noopener noreferrer" aria-label={label} className="nav-link" onClick={() => closeMobileMenu(true)}><FileText size={19} aria-hidden="true" /><span>{label}</span></a>)}</nav>
+        <nav className="nav-list" aria-label="Project documents">{documentItems.map(([label, slug]) => <NavLink key={slug} to={`/documents/${slug}`} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><FileText size={19} aria-hidden="true" /><span>{label}</span></NavLink>)}</nav>
         <div className="nav-group-label">Administration</div>
         <nav className="nav-list" aria-label="Administration">{routeItems.slice(7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
         <div className="sidebar-footer"><div className="demo-badge"><span className="demo-dot" /><span>Synthetic data only</span></div><div className="profile-row"><span className="avatar">{operator?.initials ?? 'Y32'}</span><span className="profile-meta"><strong>{operator?.name ?? 'CareOps team'}</strong><small>{operator?.role ?? 'Operations'}</small></span></div><button className="sign-out-button" type="button" aria-label="Sign out" onClick={signOut}><SignOut size={18} aria-hidden="true" /><span>Sign out</span></button></div>

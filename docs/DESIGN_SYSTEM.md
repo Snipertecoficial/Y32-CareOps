@@ -1,6 +1,6 @@
 # Y32 CareOps Design System
 
-**Version:** 0.2
+**Version:** 0.3
 **Source of truth:** `Y32 Solutions logo.jpeg` and the approved `calm-care-sidebar-preview.html` direction
 **Interface language:** English
 
@@ -73,7 +73,7 @@ Status meaning must never rely on color alone. Every status includes a text labe
 
 ### Navigation
 
-- App sidebar with logo, tenant switcher, grouped Operations and Administration navigation, user profile, and sign-out action.
+- App sidebar with logo, tenant switcher, grouped Operations, Project documents, and Administration navigation, user profile, and sign-out action.
 - Active items use a white surface, deep-teal text, and teal icon emphasis.
 - Mobile uses an accessible sheet opened from the top bar.
 

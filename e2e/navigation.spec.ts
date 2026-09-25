@@ -31,3 +31,31 @@ test('renders every product destination from the primary navigation', async ({ p
     await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible()
   }
 })
+
+test('reads every project document in the app and follows the visual roadmap', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Sign in to demo' }).click()
+
+  const documents = [
+    ['PRD', '/documents/prd', 'Product Requirements Document'],
+    ['Roadmap', '/documents/roadmap', 'Delivery Roadmap'],
+    ['API feasibility', '/documents/api-feasibility', 'API Feasibility Assessment'],
+    ['Design system', '/documents/design-system', 'Design System'],
+  ] as const
+
+  for (const [label, path, heading] of documents) {
+    await page.getByRole('navigation', { name: 'Project documents' }).getByRole('link', { name: label }).click()
+    await expect(page).toHaveURL(new RegExp(`${path}$`))
+    await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible()
+  }
+
+  await page.getByRole('navigation', { name: 'Project documents' }).getByRole('link', { name: 'Roadmap' }).click()
+  const map = page.getByRole('region', { name: 'Roadmap map' })
+  await expect(map.getByRole('link')).toHaveCount(7)
+  await map.getByRole('link', { name: /06 Planned Production scale/ }).click()
+  await expect(page).toHaveURL(/#phase-6-production-scale$/)
+  await expect(page.getByRole('heading', { name: 'Phase 6 — Production scale' })).toBeInViewport()
+
+  await page.getByRole('navigation', { name: 'Project documents' }).getByRole('link', { name: 'PRD' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Product Requirements Document' })).toBeInViewport()
+})
