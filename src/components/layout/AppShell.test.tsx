@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -27,6 +27,25 @@ describe('AppShell', () => {
     expect(routeItems).toHaveLength(11)
     for (const [, label] of routeItems) {
       expect(screen.getByRole('link', { name: label })).toBeInTheDocument()
+    }
+  })
+
+  it('opens the project documents from the sidebar without leaving the demo', () => {
+    render(<MemoryRouter initialEntries={['/overview']}><TenantProvider><ToastProvider><AppShell /></ToastProvider></TenantProvider></MemoryRouter>)
+
+    const documents = screen.getByRole('navigation', { name: 'Project documents' })
+    const expectedLinks = [
+      ['PRD', 'PRD.md'],
+      ['Roadmap', 'ROADMAP.md'],
+      ['API feasibility', 'API_FEASIBILITY.md'],
+      ['Design system', 'DESIGN_SYSTEM.md'],
+    ] as const
+
+    for (const [label, filename] of expectedLinks) {
+      const link = within(documents).getByRole('link', { name: label })
+      expect(link).toHaveAttribute('href', `https://github.com/Snipertecoficial/Y32-CareOps/blob/main/docs/${filename}`)
+      expect(link).toHaveAttribute('target', '_blank')
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer')
     }
   })
 

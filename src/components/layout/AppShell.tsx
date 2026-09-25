@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ElementType, type KeyboardEvent } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Bell, CalendarBlank, ChartPieSlice, CirclesFour, ClockCounterClockwise, Gear, Headset, List, Megaphone, PhoneCall, Robot, ShieldCheck, SignOut, SpinnerGap, Users, X } from '@phosphor-icons/react'
+import { Bell, CalendarBlank, ChartPieSlice, CirclesFour, ClockCounterClockwise, FileText, Gear, Headset, List, Megaphone, PhoneCall, Robot, ShieldCheck, SignOut, SpinnerGap, Users, X } from '@phosphor-icons/react'
 import logo from '../../assets/y32-logo.jpeg'
 import { useTenant } from '../../app/TenantProvider'
 import type { TenantId } from '../../domain/types'
@@ -24,6 +24,15 @@ const icons: Record<(typeof routeItems)[number][1], ElementType> = {
   'Audit log': ClockCounterClockwise,
   'Organization settings': Gear,
 }
+
+const documentItems = [
+  ['PRD', 'PRD.md'],
+  ['Roadmap', 'ROADMAP.md'],
+  ['API feasibility', 'API_FEASIBILITY.md'],
+  ['Design system', 'DESIGN_SYSTEM.md'],
+] as const
+
+const documentsBaseUrl = 'https://github.com/Snipertecoficial/Y32-CareOps/blob/main/docs'
 
 export function AppShell() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -112,6 +121,8 @@ export function AppShell() {
         </div>
         <div className="nav-group-label">Operations</div>
         <nav className="nav-list" aria-label="Operations">{routeItems.slice(0, 7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
+        <div className="nav-group-label">Project documents</div>
+        <nav className="nav-list" aria-label="Project documents">{documentItems.map(([label, filename]) => <a key={filename} href={`${documentsBaseUrl}/${filename}`} target="_blank" rel="noopener noreferrer" aria-label={label} className="nav-link" onClick={() => closeMobileMenu(true)}><FileText size={19} aria-hidden="true" /><span>{label}</span></a>)}</nav>
         <div className="nav-group-label">Administration</div>
         <nav className="nav-list" aria-label="Administration">{routeItems.slice(7).map(([path, label]) => { const Icon = icons[label]; return <NavLink key={path} to={path} aria-label={label} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => closeMobileMenu(true)}><Icon size={19} aria-hidden="true" /><span>{label}</span></NavLink> })}</nav>
         <div className="sidebar-footer"><div className="demo-badge"><span className="demo-dot" /><span>Synthetic data only</span></div><div className="profile-row"><span className="avatar">{operator?.initials ?? 'Y32'}</span><span className="profile-meta"><strong>{operator?.name ?? 'CareOps team'}</strong><small>{operator?.role ?? 'Operations'}</small></span></div><button className="sign-out-button" type="button" aria-label="Sign out" onClick={signOut}><SignOut size={18} aria-hidden="true" /><span>Sign out</span></button></div>
